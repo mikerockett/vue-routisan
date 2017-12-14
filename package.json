@@ -1,6 +1,6 @@
 {
   "name": "vue-routisan",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Elegant route definitions for Vue Router. Based on Laravel routing system.",
   "main": "dist/Routisan.js",
   "devDependencies": {
