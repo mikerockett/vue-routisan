@@ -1,45 +1,53 @@
-import VueRoute from './VueRoute';
+import { fixSlashes } from './util';
 
-class Route {
-    constructor () {
-        this._viewResolver = (component) => component;
-        this._routes = [];
-        this._groupOptions = {};
+export default class Route {
+    constructor (path) {
+        this.path = fixSlashes(path);
     }
 
-    setViewResolver (resolver) {
-        this._viewResolver = resolver;
+    options (options) {
+        const keys = {
+            default: [
+                'component',
+                'name',
+                'components',
+                'redirect',
+                'props',
+                'alias',
+                'children',
+                'beforeEnter',
+                'meta',
+                'caseSensitive',
+                'pathToRegexpOptions'
+            ],
+            custom: ['as', 'guard', 'prefix']
+        };
+        const handler = (options, keys, callback) => {
+            const paths = ['redirect', 'alias', 'prefix'];
+            keys.forEach((key) => {
+                if (options.hasOwnProperty(key)) {
+                    const value = (paths.includes(key) ? fixSlashes(options[key]) : options[key]);
+                    callback(key, value);
+                }
+            });
+        };
+        handler(options, keys.custom, (key, value) => { this[key](value); });
+        handler(options, keys.default, (key, value) => { this[key] = value; });
+        return this;
     }
 
-    _createRoute (path, callback) {
-        const route = new VueRoute(path);
-        callback(route);
-        route.options(this._groupOptions);
-        this._routes.push(route);
-        return route;
+    as (name) {
+        this.name = name;
+        return this;
     }
 
-    view (path, component) {
-        return this._createRoute(path, (route) => {
-            route.component = this._viewResolver(component);
-        });
+    guard (guard) {
+        this.beforeEnter = guard;
+        return this;
     }
 
-    redirect (path, redirect) {
-        return this._createRoute(path, (route) => {
-            route.options({ redirect });
-        });
-    }
-
-    group (options, routesCallback) {
-        this._groupOptions = options;
-        routesCallback();
-        this._groupOptions = {};
-    }
-
-    all () {
-        return this._routes;
+    prefix (prefix) {
+        this.path = fixSlashes(prefix + this.path);
+        return this;
     }
 }
-
-export default new Route();

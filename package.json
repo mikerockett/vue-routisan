@@ -2,7 +2,7 @@
   "name": "vue-routisan",
   "version": "1.0.0",
   "description": "Elegant route definitions for Vue Router. Based on Laravel routing system.",
-  "main": "dist/Route.js",
+  "main": "dist/Routisan.js",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1"
@@ -24,6 +24,7 @@
     "vue",
     "vuejs",
     "laravel",
+    "artisan",
     "router",
     "route",
     "routing"
