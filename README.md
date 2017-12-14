@@ -1,7 +1,7 @@
 # vue-routisan
 
-[![npm version][npm-image]][npm-url]
-[![License][license-image]][license-url]
+[![Latest Version on NPM](https://img.shields.io/npm/v/vue-routisan.svg?style=flat-square)](https://www.npmjs.com/package/vue-routisan)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 
 Elegant route definitions for **Vue Router**. Based on Laravel routing system.
 
@@ -169,8 +169,3 @@ ___
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
-
-[npm-image]: https://img.shields.io/npm/v/vue-routisan.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/vue-routisan
-[license-image]: https://img.shields.io/:license-mit-blue.svg?style=flat-square
-[license-url]: LICENSE.md
