@@ -138,7 +138,8 @@ Options such as `path`, `redirect`, `alias`, and `prefix` are automatically form
 
 `Route.all()` returns an array of all the defined routes.
 
-`router/routes.js`
+#### router/routes.js
+
 ```js
 import Route from 'vue-routisan';
 
@@ -149,7 +150,8 @@ import Route from 'vue-routisan';
 export default Route.all();
 ```
 
-`router/index.js`
+#### router/index.js
+
 ```js
 import Vue from 'vue';
 import VueRouter from 'vue-router';
