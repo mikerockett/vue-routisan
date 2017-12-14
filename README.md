@@ -2,7 +2,7 @@
 
 Elegant route definitions for **Vue Router**. Based on Laravel routing system.
 
-[Demo (CodeSandbox)](https://www.npmjs.com/package/vue-routisan)
+[Demo (CodeSandbox)](https://codesandbox.io/s/yvp14yo08x)
 
 ___
 ## Install
