@@ -1,0 +1,37 @@
+{
+  "name": "vue-routisan",
+  "version": "1.0.0",
+  "description": "Elegant route definitions for Vue Router. Based on Laravel routing system.",
+  "main": "dist/Route.js",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1"
+  },
+  "scripts": {
+    "build": "babel src -d dist",
+    "prepublish": "npm run build"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raniesantos/vue-routisan.git"
+  },
+  "keywords": [
+    "vue",
+    "vuejs",
+    "laravel",
+    "router",
+    "route",
+    "routing"
+  ],
+  "author": "Ranie Santos",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/raniesantos/vue-routisan/issues"
+  },
+  "homepage": "https://github.com/raniesantos/vue-routisan#readme"
+}
