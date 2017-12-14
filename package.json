@@ -23,11 +23,13 @@
   "keywords": [
     "vue",
     "vuejs",
-    "laravel",
-    "artisan",
+    "vue-router",
     "router",
+    "routing",
     "route",
-    "routing"
+    "routes",
+    "laravel",
+    "artisan"
   ],
   "author": "Ranie Santos",
   "license": "MIT",
