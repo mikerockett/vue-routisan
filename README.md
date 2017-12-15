@@ -66,7 +66,7 @@ Route.view('/admin/dashboard', 'Home').as('dashboard');
 The `guard()` method sets the `beforeEnter` option on the *route instance*.
 
 ```js
-const auth = () => { /* redirect if not logged in */ };
+const auth = (to, from, next) => { /* redirect if not logged in */ };
 
 Route.view('/account/settings', 'Settings').guard(auth);
 ```
@@ -75,12 +75,12 @@ Route.view('/account/settings', 'Settings').guard(auth);
 
 Use the `options()` method to set all other options on the *route instance*.
 
-**NOTE:** This will not override the `path` option. It will be ignored if you specify it.
+**NOTE:** This will not override the `path` and `component` options. They will be ignored if you specify them.
 
 Reference: [Vue route options](https://router.vuejs.org/en/api/options.html)
 
 ```js
-const guest = () => { /* redirect if already logged in */ };
+const guest = (to, from, next) => { /* redirect if already logged in */ };
 
 Route.view('/auth/signin', 'Signin').options({
     name: 'login',
@@ -95,7 +95,7 @@ Some options have aliases for consistency with method names.
 ```js
 Route.view('/auth/signup', 'Signup').options({
     as: 'register', // alias for 'name'
-    guard: guest // alias for 'beforeEnter'
+    guard: guest    // alias for 'beforeEnter'
 });
 ```
 
@@ -116,9 +116,9 @@ Add a prefix to the `path` of each route in a group.
 
 ```js
 Route.group({ prefix: '/posts' }, () => {
-    Route.view('/', 'PostIndex'); // '/posts'
+    Route.view('/', 'PostIndex');        // '/posts'
     Route.view('/create', 'CreatePost'); // '/posts/create'
-    Route.view('/edit', 'EditPost'); // '/posts/edit'
+    Route.view('/edit', 'EditPost');     // '/posts/edit'
 });
 ```
 

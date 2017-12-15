@@ -8,7 +8,6 @@ export default class Route {
     options (options) {
         const keys = {
             default: [
-                'component',
                 'name',
                 'components',
                 'redirect',
