@@ -5,8 +5,6 @@
 
 Elegant route definitions for **Vue Router**. Based on Laravel routing system.
 
-[Demo (CodeSandbox)](https://codesandbox.io/s/yvp14yo08x)
-
 ___
 ## Install
 
@@ -30,8 +28,6 @@ Route.setViewResolver((component) => {
     return require('./views/' + component);
 });
 ```
-
-**NOTE:** I used this approach because because Webpack doesn't allow dynamic requires.
 
 ### Basic usage
 
@@ -58,7 +54,7 @@ Route.redirect('/home', '/');
 The `as()` method sets the `name` option on the *route instance*.
 
 ```js
-Route.view('/admin/dashboard', 'Home').as('dashboard');
+Route.view('/user/profile', 'Profile').as('profile');
 ```
 
 ### Navigation guards
@@ -66,9 +62,16 @@ Route.view('/admin/dashboard', 'Home').as('dashboard');
 The `guard()` method sets the `beforeEnter` option on the *route instance*.
 
 ```js
-const auth = (to, from, next) => { /* redirect if not logged in */ };
+const auth = (to, from, next) => { /* must be logged in */ };
+const admin = (to, from, next) => { /* user must be admin */ };
 
 Route.view('/account/settings', 'Settings').guard(auth);
+```
+
+You may also provide an array of guards. They will be executed in the order they are listed in the array.
+
+```js
+Route.view('/admin/dashboard', 'Dashboard').guard([auth, admin]);
 ```
 
 ### Setting other route options
@@ -80,7 +83,7 @@ Use the `options()` method to set all other options on the *route instance*.
 Reference: [Vue route options](https://router.vuejs.org/en/api/options.html)
 
 ```js
-const guest = (to, from, next) => { /* redirect if already logged in */ };
+const guest = (to, from, next) => { /* already logged in */ };
 
 Route.view('/auth/signin', 'Signin').options({
     name: 'login',
@@ -97,6 +100,20 @@ Route.view('/auth/signup', 'Signup').options({
     as: 'register', // alias for 'name'
     guard: guest    // alias for 'beforeEnter'
 });
+```
+
+### Important difference between using `beforeEnter` and `guard`
+
+The `guard` key executes the method of the same name, it checks if the value being given is an array and handles it appropriately. Using `beforeEnter` does not. It only directly assigns the value to the route instance.
+
+```js
+// This works
+Route.view(...).options({ guard: [auth, admin] });
+Route.group({ guard: [auth, admin] }, () => { ... });
+
+// This doesn't
+Route.view(...).options({ beforeEnter: [auth, admin] });
+Route.group({ beforeEnter: [auth, admin] }, () => { ... });
 ```
 
 ### Route groups
