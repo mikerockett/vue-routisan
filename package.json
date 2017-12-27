@@ -1,6 +1,6 @@
 {
   "name": "vue-routisan",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Elegant route definitions for Vue Router. Based on Laravel routing system.",
   "main": "dist/Routisan.js",
   "repository": {
@@ -39,6 +39,8 @@
     "prepublish": "npm run build"
   },
   "babel": {
-    "presets": ["env"]
+    "presets": [
+      "env"
+    ]
   }
 }
