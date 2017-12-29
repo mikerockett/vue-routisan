@@ -42,8 +42,8 @@ export default class Route {
 
     guard (guard) {
         if (Array.isArray(guard)) {
-            this.beforeEnter = () => {
-                guard.forEach((g) => { g(); });
+            this.beforeEnter = (to, from, next) => {
+                guard.forEach((g) => { g(to, from, next); });
             };
         } else {
             this.beforeEnter = guard;
