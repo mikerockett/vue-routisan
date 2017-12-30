@@ -43,7 +43,13 @@ export default class Route {
     guard (guard) {
         if (Array.isArray(guard)) {
             this.beforeEnter = (to, from, next) => {
-                guard.forEach((g) => { g(to, from, next); });
+                const destination = window.location.href;
+                guard.forEach((g) => {
+                    const redirected = (window.location.href !== destination);
+                    if (!redirected) {
+                        g(to, from, next);
+                    }
+                });
             };
         } else {
             this.beforeEnter = guard;
