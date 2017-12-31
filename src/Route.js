@@ -3,6 +3,7 @@ import { fixSlashes } from './util';
 export default class Route {
     constructor (path) {
         this.path = fixSlashes(path);
+        this._guards = [];
     }
 
     options (options) {
@@ -42,18 +43,21 @@ export default class Route {
 
     guard (guard) {
         if (Array.isArray(guard)) {
-            this.beforeEnter = (to, from, next) => {
-                const destination = window.location.href;
-                guard.forEach((g) => {
-                    const redirected = (window.location.href !== destination);
-                    if (!redirected) {
-                        g(to, from, next);
-                    }
-                });
-            };
+            this._guards = this._guards.concat(guard);
         } else {
-            this.beforeEnter = guard;
+            this._guards.push(guard);
         }
+
+        this.beforeEnter = (to, from, next) => {
+            const destination = window.location.href;
+            this._guards.forEach((guard) => {
+                const redirected = (window.location.href !== destination);
+                if (!redirected) {
+                    guard(to, from, next);
+                }
+            });
+        };
+
         return this;
     }
 
