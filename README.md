@@ -127,6 +127,8 @@ Route.group({ beforeEnter: guest }, () => {
 });
 ```
 
+**NOTE:** If you define `guard` in the group options and then use the `guard()` method on one of the routes in the callback function, the guards defined for the group will take priority and be executed first.
+
 ### Route prefixes
 
 Add a prefix to the `path` of each route in a group.
