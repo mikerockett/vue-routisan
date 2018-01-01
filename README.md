@@ -70,6 +70,8 @@ Route.view('/account/settings', 'Settings').guard(auth);
 
 You may also provide an array of guards. They will be executed in the order they are listed in the array.
 
+This applies not only to the `guard()` method, you can do this with any of the methods below that can apply navigation guards to routes.
+
 ```js
 Route.view('/admin/dashboard', 'Dashboard').guard([auth, admin]);
 ```
@@ -113,7 +115,7 @@ Route.group({ beforeEnter: guest }, () => {
 });
 ```
 
-**NOTE:** If you define `guard` in the group options and then use the `guard()` method on one of the routes in the callback function, the guards defined for the group will take priority and be executed first.
+**NOTE:** Navigation guards defined for the group will take priority over guards defined on the individual routes in the callback.
 
 ### Route prefixes
 
