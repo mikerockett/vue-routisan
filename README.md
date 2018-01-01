@@ -102,20 +102,6 @@ Route.view('/auth/signup', 'Signup').options({
 });
 ```
 
-### Important difference between using `beforeEnter` and `guard`
-
-The `guard` key executes the method of the same name, it checks if the value being given is an array and handles it appropriately. Using `beforeEnter` does not. It only directly assigns the value to the route instance.
-
-```js
-// This works
-Route.view(...).options({ guard: [auth, admin] });
-Route.group({ guard: [auth, admin] }, () => { ... });
-
-// This doesn't
-Route.view(...).options({ beforeEnter: [auth, admin] });
-Route.group({ beforeEnter: [auth, admin] }, () => { ... });
-```
-
 ### Route groups
 
 Allows you to apply route options to multiple routes.
@@ -180,7 +166,7 @@ Vue.use(VueRouter);
 
 export default new VueRouter({
     mode: 'history',
-    routes
+    routes: routes
 });
 ```
 
