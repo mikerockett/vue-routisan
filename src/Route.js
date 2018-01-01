@@ -4,28 +4,15 @@ export default class Route {
     constructor (path) {
         this.path = fixSlashes(path);
         this._guards = [];
-        this._setters = {
-            beforeEnter (guard) {
-                if (Array.isArray(guard)) {
-                    this._guards = this._guards.concat(guard);
-                } else {
-                    this._guards.push(guard);
-                }
+    }
 
-                this.beforeEnter = (to, from, next) => {
-                    const destination = window.location.href;
-                    this._guards.forEach((guard) => {
-                        const redirected = (window.location.href !== destination);
-                        if (!redirected) {
-                            guard(to, from, next);
-                        }
-                    });
-                };
-            },
-            prefix (prefix) {
-                this.path = fixSlashes(prefix + this.path);
-            }
-        };
+    _set (key, value) {
+        const method = '_' + key;
+        if (this[method]) {
+            this[method](value);
+        } else {
+            this[key] = value;
+        }
     }
 
     options (options) {
@@ -53,24 +40,34 @@ export default class Route {
         valid.forEach((key) => {
             let value = options[key];
             if (options.hasOwnProperty(key)) {
-                // swap alias
                 if (Object.keys(aliases).includes(key)) {
-                    options[aliases[key]] = value;
-                    delete options[key];
+                    key = aliases[key];
                 }
-                // format paths
                 if (paths.includes(key)) {
                     value = fixSlashes(value);
                 }
-                // set
-                if (this._setters.hasOwnProperty(key)) {
-                    this._setters[key](value);
-                } else {
-                    this[key] = value;
-                }
+                this._set(key, value);
             }
         });
         return this;
+    }
+
+    _beforeEnter (guard) {
+        if (Array.isArray(guard)) {
+            this._guards = this._guards.concat(guard);
+        } else {
+            this._guards.push(guard);
+        }
+
+        this.beforeEnter = (to, from, next) => {
+            const destination = window.location.href;
+            this._guards.forEach((guard) => {
+                const redirected = (window.location.href !== destination);
+                if (!redirected) {
+                    guard(to, from, next);
+                }
+            });
+        };
     }
 
     as (name) {
@@ -79,7 +76,11 @@ export default class Route {
     }
 
     guard (guard) {
-        this._setters.beforeEnter(guard);
+        this._set('beforeEnter', guard);
         return this;
+    }
+
+    _prefix (prefix) {
+        this.path = fixSlashes(prefix + this.path);
     }
 }
