@@ -1,6 +1,6 @@
 import Route from './Route';
 
-class Routisan {
+export default class Routisan {
     constructor () {
         this._viewResolver = (component) => component;
         this._routes = [];
@@ -41,5 +41,3 @@ class Routisan {
         return this._routes;
     }
 }
-
-export default new Routisan();
