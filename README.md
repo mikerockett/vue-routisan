@@ -70,6 +70,8 @@ Route.view('/account/settings', 'Settings').guard(auth);
 
 You may also provide an array of guards. They will be executed in the order they are listed in the array.
 
+This applies not only to the `guard()` method, you can do this with any of the methods below that can apply navigation guards to routes.
+
 ```js
 Route.view('/admin/dashboard', 'Dashboard').guard([auth, admin]);
 ```
@@ -102,20 +104,6 @@ Route.view('/auth/signup', 'Signup').options({
 });
 ```
 
-### Important difference between using `beforeEnter` and `guard`
-
-The `guard` key executes the method of the same name, it checks if the value being given is an array and handles it appropriately. Using `beforeEnter` does not. It only directly assigns the value to the route instance.
-
-```js
-// This works
-Route.view(...).options({ guard: [auth, admin] });
-Route.group({ guard: [auth, admin] }, () => { ... });
-
-// This doesn't
-Route.view(...).options({ beforeEnter: [auth, admin] });
-Route.group({ beforeEnter: [auth, admin] }, () => { ... });
-```
-
 ### Route groups
 
 Allows you to apply route options to multiple routes.
@@ -126,6 +114,8 @@ Route.group({ beforeEnter: guest }, () => {
     Route.view('/auth/password/reset', 'Reset');
 });
 ```
+
+**NOTE:** Navigation guards defined for the group will take priority over guards defined on the individual routes in the callback.
 
 ### Route prefixes
 
@@ -178,7 +168,7 @@ Vue.use(VueRouter);
 
 export default new VueRouter({
     mode: 'history',
-    routes
+    routes: routes
 });
 ```
 
