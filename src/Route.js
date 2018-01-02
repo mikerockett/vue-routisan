@@ -2,18 +2,9 @@ import { fixSlashes } from './util';
 
 export default class Route {
     constructor (path) {
-        this._instance = {};
-        this._instance.path = fixSlashes(path);
+        this.instance = {};
+        this.instance.path = fixSlashes(path);
         this._guards = [];
-    }
-
-    _set (key, value) {
-        const method = '_' + key;
-        if (this[method]) {
-            this[method](value);
-        } else {
-            this._instance[key] = value;
-        }
     }
 
     options (options) {
@@ -53,24 +44,6 @@ export default class Route {
         return this;
     }
 
-    _beforeEnter (guard) {
-        if (Array.isArray(guard)) {
-            this._guards = this._guards.concat(guard);
-        } else {
-            this._guards.push(guard);
-        }
-
-        this._instance.beforeEnter = (to, from, next) => {
-            const destination = window.location.href;
-            this._guards.forEach((guard) => {
-                const redirected = (window.location.href !== destination);
-                if (!redirected) {
-                    guard(to, from, next);
-                }
-            });
-        };
-    }
-
     as (name) {
         this._set('name', name);
         return this;
@@ -81,7 +54,34 @@ export default class Route {
         return this;
     }
 
+    _set (key, value) {
+        const method = '_' + key;
+        if (this[method]) {
+            this[method](value);
+        } else {
+            this.instance[key] = value;
+        }
+    }
+
+    _beforeEnter (guard) {
+        if (Array.isArray(guard)) {
+            this._guards = this._guards.concat(guard);
+        } else {
+            this._guards.push(guard);
+        }
+
+        this.instance.beforeEnter = (to, from, next) => {
+            const destination = window.location.href;
+            this._guards.forEach((guard) => {
+                const redirected = (window.location.href !== destination);
+                if (!redirected) {
+                    guard(to, from, next);
+                }
+            });
+        };
+    }
+
     _prefix (prefix) {
-        this._instance.path = fixSlashes(prefix + this._instance.path);
+        this.instance.path = fixSlashes(prefix + this.instance.path);
     }
 }
