@@ -2,7 +2,8 @@ import { fixSlashes } from './util';
 
 export default class Route {
     constructor (path) {
-        this.path = fixSlashes(path);
+        this._instance = {};
+        this._instance.path = fixSlashes(path);
         this._guards = [];
     }
 
@@ -11,7 +12,7 @@ export default class Route {
         if (this[method]) {
             this[method](value);
         } else {
-            this[key] = value;
+            this._instance[key] = value;
         }
     }
 
@@ -59,7 +60,7 @@ export default class Route {
             this._guards.push(guard);
         }
 
-        this.beforeEnter = (to, from, next) => {
+        this._instance.beforeEnter = (to, from, next) => {
             const destination = window.location.href;
             this._guards.forEach((guard) => {
                 const redirected = (window.location.href !== destination);
@@ -71,7 +72,7 @@ export default class Route {
     }
 
     as (name) {
-        this.name = name;
+        this._set('name', name);
         return this;
     }
 
@@ -81,6 +82,6 @@ export default class Route {
     }
 
     _prefix (prefix) {
-        this.path = fixSlashes(prefix + this.path);
+        this._instance.path = fixSlashes(prefix + this._instance.path);
     }
 }

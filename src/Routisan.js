@@ -21,7 +21,7 @@ export default class Routisan {
 
     view (path, component) {
         return this._createRoute(path, (route) => {
-            route.component = this._viewResolver(component);
+            route._instance.component = this._viewResolver(component);
         });
     }
 
@@ -31,13 +31,13 @@ export default class Routisan {
         });
     }
 
-    group (options, routesCallback) {
+    group (options, callback) {
         this._groupOptions = options;
-        routesCallback();
+        callback();
         this._groupOptions = {};
     }
 
     all () {
-        return this._routes;
+        return this._routes.map((route) => route._instance);
     }
 }
