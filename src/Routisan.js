@@ -21,7 +21,10 @@ class Routisan {
 
     view (path, component) {
         return this._createRoute(path, (route) => {
-            route.component = this._viewResolver(component);
+            // resolve component only if provided
+            if (component) {
+                route.component = this._viewResolver(component);
+            }
         });
     }
 
