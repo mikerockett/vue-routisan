@@ -25,6 +25,14 @@
   },
   "homepage": "https://github.com/raniesantos/vue-routisan#readme",
   "devDependencies": {
+    "eslint": "^4.15.0",
+    "eslint-config-raniesantos": "^1.0.1",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "eslint-plugin-vue": "^4.2.0",
     "poi": "^9.6.9",
     "rimraf": "^2.6.2"
   },
@@ -32,6 +40,7 @@
     "vue-router": "^3.0.1"
   },
   "scripts": {
+    "lint": "eslint --fix src",
     "clean": "rimraf dist/*",
     "poi": "poi build src --library --filename.js index.js",
     "build": "npm run clean && npm run poi",
