@@ -7,7 +7,7 @@ export default class Route {
     }
 
     _set (key, value) {
-        const method = '_' + key;
+        method = '_' + key;
         if (this[method]) {
             this[method](value);
         } else {
