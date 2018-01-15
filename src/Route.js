@@ -16,6 +16,7 @@ export default class Route {
     }
 
     options (options) {
+        console.log('i fixed it!');
         const valid = [
             'name',
             'components',
