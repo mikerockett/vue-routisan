@@ -7,7 +7,7 @@ export default class Route {
     }
 
     _set (key, value) {
-        method = '_' + key;
+        const method = '_' + key;
         if (this[method]) {
             this[method](value);
         } else {
@@ -16,7 +16,8 @@ export default class Route {
     }
 
     options (options) {
-        valid = [
+        console.log('i fixed it!');
+        const valid = [
             'name',
             'components',
             'redirect',
