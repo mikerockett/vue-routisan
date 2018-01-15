@@ -16,7 +16,7 @@ export default class Route {
     }
 
     options (options) {
-        const valid = [
+        valid = [
             'name',
             'components',
             'redirect',
