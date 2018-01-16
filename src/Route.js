@@ -2,7 +2,7 @@ import { fixSlashes, multiguard } from './util';
 
 export default class Route {
     constructor (path) {
-        this.instance = { path: fixSlashes(path) };
+        this.config = { path: fixSlashes(path) };
         this._guards = [];
     }
 
@@ -48,20 +48,17 @@ export default class Route {
         if (this[method]) {
             this[method](value);
         } else {
-            this.instance[key] = value;
+            this.config[key] = value;
         }
     }
 
     _beforeEnter (guard) {
-        if (Array.isArray(guard)) {
-            this._guards = this._guards.concat(guard);
-        } else {
-            this._guards.push(guard);
-        }
-        this.instance.beforeEnter = multiguard(this._guards);
+        guard = (Array.isArray(guard) ? guard : [guard]);
+        this._guards = this._guards.concat(guard);
+        this.config.beforeEnter = multiguard(this._guards);
     }
 
     _prefix (prefix) {
-        this.instance.path = fixSlashes(prefix + this.instance.path);
+        this.config.path = fixSlashes(prefix + this.config.path);
     }
 }
