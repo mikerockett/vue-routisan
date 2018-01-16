@@ -1,4 +1,5 @@
 import { fixSlashes } from './util';
+import multiguard from 'vue-router-multiguard';
 
 export default class Route {
     constructor (path) {
@@ -60,15 +61,7 @@ export default class Route {
             this._guards.push(guard);
         }
 
-        this.instance.beforeEnter = (to, from, next) => {
-            const destination = window.location.href;
-            this._guards.forEach((guard) => {
-                const redirected = (window.location.href !== destination);
-                if (!redirected) {
-                    guard(to, from, next);
-                }
-            });
-        };
+        this.instance.beforeEnter = multiguard(this._guards);
     }
 
     _prefix (prefix) {

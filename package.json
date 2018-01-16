@@ -30,6 +30,9 @@
     "url": "https://github.com/raniesantos/vue-routisan/issues"
   },
   "homepage": "https://github.com/raniesantos/vue-routisan#readme",
+  "dependencies": {
+    "vue-router-multiguard": "^1.0.3"
+  },
   "devDependencies": {
     "eslint": "^4.15.0",
     "eslint-config-raniesantos": "^1.0.1",
