@@ -2,42 +2,42 @@ import Route from './Route';
 
 export default class Routisan {
     constructor () {
-        this._viewResolver = (component) => component;
+        this._resolver = (component) => component;
         this._routes = [];
-        this._groupOptions = {};
+        this._groupStack = {};
     }
 
     setViewResolver (resolver) {
-        this._viewResolver = resolver;
+        this._resolver = resolver;
     }
 
-    _createRoute (path, callback) {
+    _addRoute (path, callback) {
         const route = new Route(path);
         callback(route);
-        route.options(this._groupOptions);
+        route.options(this._groupStack);
         this._routes.push(route);
         return route;
     }
 
     view (path, component) {
-        return this._createRoute(path, (route) => {
-            route.component = this._viewResolver(component);
+        return this._addRoute(path, (route) => {
+            route.instance.component = this._resolver(component);
         });
     }
 
     redirect (path, redirect) {
-        return this._createRoute(path, (route) => {
+        return this._addRoute(path, (route) => {
             route.options({ redirect });
         });
     }
 
-    group (options, routesCallback) {
-        this._groupOptions = options;
-        routesCallback();
-        this._groupOptions = {};
+    group (options, routes) {
+        this._groupStack = options;
+        routes();
+        this._groupStack = {};
     }
 
     all () {
-        return this._routes;
+        return this._routes.map((route) => route.instance);
     }
 }
