@@ -1,10 +1,8 @@
-import { fixSlashes } from './util';
-import multiguard from 'vue-router-multiguard';
+import { fixSlashes, multiguard } from './util';
 
 export default class Route {
     constructor (path) {
-        this.instance = {};
-        this.instance.path = fixSlashes(path);
+        this.instance = { path: fixSlashes(path) };
         this._guards = [];
     }
 
@@ -60,7 +58,6 @@ export default class Route {
         } else {
             this._guards.push(guard);
         }
-
         this.instance.beforeEnter = multiguard(this._guards);
     }
 
