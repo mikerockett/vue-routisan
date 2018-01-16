@@ -9,3 +9,5 @@ export const fixSlashes = (path) => {
     }
     return path;
 };
+
+export { default as multiguard } from 'vue-router-multiguard';
