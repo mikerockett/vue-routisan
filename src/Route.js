@@ -1,8 +1,9 @@
 import { fixSlashes, multiguard } from './util';
 
 export default class Route {
-    constructor (path) {
+    constructor (path, key, value) {
         this.config = { path: fixSlashes(path) };
+        this._set(key, value);
         this._guards = [];
     }
 
@@ -10,6 +11,7 @@ export default class Route {
         if (Object.keys(options).length === 0) {
             return;
         }
+
         const valid = [
             'name', 'components', 'redirect', 'props', 'alias',
             'children', 'beforeEnter', 'meta', 'caseSensitive',
@@ -17,39 +19,42 @@ export default class Route {
         ];
 
         valid.forEach((key) => {
-            const value = options[key];
             if (options.hasOwnProperty(key)) {
-                this.set(key, value);
+                this._set(key, options[key]);
             }
         });
+
         return this;
     }
 
     as (name) {
-        this.set('name', name);
+        this._set('name', name);
         return this;
     }
 
     guard (guard) {
-        this.set('beforeEnter', guard);
+        this._set('beforeEnter', guard);
         return this;
     }
 
-    set (key, value) {
+    _set (key, value) {
         const aliases = {
             as: 'name',
             guard: 'beforeEnter'
         };
+
         const paths = ['redirect', 'alias', 'prefix'];
 
         if (Object.keys(aliases).includes(key)) {
             key = aliases[key];
         }
+
         if (paths.includes(key)) {
             value = fixSlashes(value);
         }
 
         const method = '_' + key;
+
         if (this[method]) {
             this[method](value);
         } else {
@@ -59,7 +64,9 @@ export default class Route {
 
     _beforeEnter (guard) {
         guard = (Array.isArray(guard) ? guard : [guard]);
+
         this._guards = this._guards.concat(guard);
+
         this.config.beforeEnter = multiguard(this._guards);
     }
 
