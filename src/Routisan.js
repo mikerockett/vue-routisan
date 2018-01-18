@@ -21,13 +21,13 @@ export default class Routisan {
 
     view (path, component) {
         return this._addRoute(path, (route) => {
-            route.config.component = this._resolver(component);
+            route.set('component', this._resolver(component));
         });
     }
 
     redirect (path, redirect) {
         return this._addRoute(path, (route) => {
-            route.options({ redirect });
+            route.set('redirect', redirect);
         });
     }
 

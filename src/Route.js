@@ -7,43 +7,48 @@ export default class Route {
     }
 
     options (options) {
+        if (Object.keys(options).length === 0) {
+            return;
+        }
         const valid = [
             'name', 'components', 'redirect', 'props', 'alias',
             'children', 'beforeEnter', 'meta', 'caseSensitive',
             'pathToRegexpOptions', 'as', 'guard', 'prefix'
         ];
-        const aliases = {
-            as: 'name',
-            guard: 'beforeEnter'
-        };
-        const paths = ['redirect', 'alias', 'prefix'];
 
         valid.forEach((key) => {
-            let value = options[key];
+            const value = options[key];
             if (options.hasOwnProperty(key)) {
-                if (Object.keys(aliases).includes(key)) {
-                    key = aliases[key];
-                }
-                if (paths.includes(key)) {
-                    value = fixSlashes(value);
-                }
-                this._set(key, value);
+                this.set(key, value);
             }
         });
         return this;
     }
 
     as (name) {
-        this._set('name', name);
+        this.set('name', name);
         return this;
     }
 
     guard (guard) {
-        this._set('beforeEnter', guard);
+        this.set('beforeEnter', guard);
         return this;
     }
 
-    _set (key, value) {
+    set (key, value) {
+        const aliases = {
+            as: 'name',
+            guard: 'beforeEnter'
+        };
+        const paths = ['redirect', 'alias', 'prefix'];
+
+        if (Object.keys(aliases).includes(key)) {
+            key = aliases[key];
+        }
+        if (paths.includes(key)) {
+            value = fixSlashes(value);
+        }
+
         const method = '_' + key;
         if (this[method]) {
             this[method](value);
