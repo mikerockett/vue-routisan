@@ -8,21 +8,15 @@ export default class Route {
     }
 
     options (options) {
-        if (Object.keys(options).length === 0) {
-            return;
-        }
-
         const valid = [
             'name', 'components', 'redirect', 'props', 'alias',
             'children', 'beforeEnter', 'meta', 'caseSensitive',
             'pathToRegexpOptions', 'as', 'guard', 'prefix'
         ];
 
-        valid.forEach((key) => {
-            if (options.hasOwnProperty(key)) {
-                this._set(key, options[key]);
-            }
-        });
+        Object.keys(options)
+            .filter((key) => valid.includes(key))
+            .forEach((key) => this._set(key, options[key]));
 
         return this;
     }
