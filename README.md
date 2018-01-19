@@ -1,9 +1,10 @@
-# vue-routisan
+# <img src="https://user-images.githubusercontent.com/8528269/35032720-e11c3072-fba2-11e7-8611-c5e8db259488.png" alt="vue-routisan">
 
 [![Latest Version on NPM](https://img.shields.io/npm/v/vue-routisan.svg?style=flat-square)](https://www.npmjs.com/package/vue-routisan)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![donate](https://img.shields.io/badge/$-donate-ff5f5f.svg?style=flat-square)](https://ko-fi.com/raniesantos)
+[![chat](https://img.shields.io/badge/chat-discord-7289DA.svg?style=flat-square)](https://discord.gg/8e5sUU6)
 
 Elegant route definitions for **Vue Router**. Based on Laravel routing system.
 

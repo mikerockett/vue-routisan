@@ -1,6 +1,6 @@
 {
   "name": "vue-routisan",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Elegant route definitions for Vue Router. Based on Laravel routing system.",
   "main": "dist/index.js",
   "repository": {
@@ -16,6 +16,12 @@
     "route",
     "routes",
     "laravel",
+    "group",
+    "groups",
+    "guard",
+    "guards",
+    "multi",
+    "multiple",
     "artisan"
   ],
   "author": "Ranie Santos",
@@ -24,6 +30,9 @@
     "url": "https://github.com/raniesantos/vue-routisan/issues"
   },
   "homepage": "https://github.com/raniesantos/vue-routisan#readme",
+  "dependencies": {
+    "vue-router-multiguard": "^1.0.3"
+  },
   "devDependencies": {
     "eslint": "^4.15.0",
     "eslint-config-raniesantos": "^1.0.1",
@@ -40,7 +49,7 @@
     "vue-router": "^3.0.1"
   },
   "scripts": {
-    "lint": "eslint --fix src",
+    "lint": "eslint src",
     "clean": "rimraf dist/*",
     "poi": "poi build src --library --filename.js index.js",
     "build": "npm run clean && npm run poi",
