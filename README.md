@@ -134,7 +134,7 @@ Route.group({ prefix: '/posts' }, () => {
 
 ### Nested routes
 
-Creates a nested route, building the `children` option for you.
+Creates a nested route, appending all routes to the `children` option of the parent.
 
 ```js
 Route.nested('/posts', 'Posts', (Child) => {
