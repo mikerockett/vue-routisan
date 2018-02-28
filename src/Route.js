@@ -1,8 +1,8 @@
 import { fixSlashes, multiguard } from './util';
 
 export default class Route {
-    constructor (path, key, value) {
-        this.config = { path: fixSlashes(path) };
+    constructor (path, key, value, root = true) {
+        this.config = { path: root ? fixSlashes(path) : path };
         this._set(key, value);
         this._guards = [];
     }

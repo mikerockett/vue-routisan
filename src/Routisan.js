@@ -1,7 +1,8 @@
 import Route from './Route';
 
 export default class Routisan {
-    constructor () {
+    constructor (root = true) {
+        this._root = root;
         this._resolver = (component) => component;
         this._routes = [];
         this._groupStack = {};
@@ -12,7 +13,7 @@ export default class Routisan {
     }
 
     _addRoute (path, key, value) {
-        const route = new Route(path, key, value);
+        const route = new Route(path, key, value, this._root);
 
         route.options(this._groupStack);
 
@@ -35,6 +36,18 @@ export default class Routisan {
         routes();
 
         this._groupStack = {};
+    }
+
+    nested (path, component, children) {
+        const route = this._addRoute(path, 'component', this._resolver(component));
+        const nestedRoutisan = new Routisan(false);
+        nestedRoutisan.setViewResolver(this._resolver);
+
+        children(nestedRoutisan);
+
+        route.options({
+            children: nestedRoutisan.all()
+        });
     }
 
     all () {

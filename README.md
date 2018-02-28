@@ -132,9 +132,22 @@ Route.group({ prefix: '/posts' }, () => {
 });
 ```
 
+### Nested routes
+
+Creates a nested route, appending all routes to the `children` option of the parent.
+
+```js
+Route.nested('/posts', 'Posts', (Child) => {
+    Child.view('', 'PostIndex');             // '/posts'
+    Child.view('create', 'CreatePost');      // '/posts/create'
+    Child.view('edit', 'EditPost');          // '/posts/edit'
+    Child.view('/settings', 'PostSettings'); // '/settings'
+});
+```
+
 ### A note on slashes
 
-Options such as `path`, `redirect`, `alias`, and `prefix` are automatically formatted.
+Options such as `path`, `redirect`, `alias`, and `prefix` are automatically formatted, except `path` on nested routes.
 
 ```js
 '/'                // '/'
