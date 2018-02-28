@@ -1,4 +1,4 @@
-# <img src="https://user-images.githubusercontent.com/8528269/35032720-e11c3072-fba2-11e7-8611-c5e8db259488.png" alt="vue-routisan">
+# <img src="https://user-images.githubusercontent.com/8528269/36801126-23dfb91e-1cec-11e8-850e-9f2f83db1f4a.png" alt="vue-routisan">
 
 [![Latest Version on NPM](https://img.shields.io/npm/v/vue-routisan.svg?style=flat-square)](https://www.npmjs.com/package/vue-routisan)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://oss.ninja/mit/raniesantos)
