@@ -48,7 +48,7 @@ export default class Route {
             key = aliases[key];
         }
 
-        if (paths.includes(key)) {
+        if (paths.includes(key) && typeof value === 'string') {
             value = fixSlashes(value);
         }
 
