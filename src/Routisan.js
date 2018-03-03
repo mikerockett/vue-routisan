@@ -1,4 +1,5 @@
 import Route from './Route';
+import shared from './shared';
 
 export default class Routisan {
     constructor () {
@@ -16,7 +17,7 @@ export default class Routisan {
 
         route.options(this._groupStack);
 
-        this._routes.push(route);
+        (shared.root ? this._routes : shared.childRoutes).push(route);
 
         return route;
     }
