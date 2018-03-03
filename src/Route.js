@@ -12,7 +12,7 @@ export default class Route {
         const valid = [
             'name', 'components', 'redirect', 'props', 'alias',
             'children', 'beforeEnter', 'meta', 'caseSensitive',
-            'pathToRegexpOptions', 'as', 'guard', 'prefix'
+            'pathToRegexpOptions', 'guard', 'prefix'
         ];
 
         Object.keys(options)
@@ -22,7 +22,7 @@ export default class Route {
         return this;
     }
 
-    as (name) {
+    name (name) {
         this._set('name', name);
         return this;
     }
@@ -39,7 +39,6 @@ export default class Route {
 
     _set (key, value) {
         const aliases = {
-            as: 'name',
             guard: 'beforeEnter'
         };
 
