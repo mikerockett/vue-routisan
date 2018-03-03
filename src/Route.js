@@ -1,4 +1,5 @@
 import { fixSlashes, multiguard } from './util';
+import shared from './shared';
 
 export default class Route {
     constructor (path, key, value) {
@@ -28,6 +29,11 @@ export default class Route {
 
     guard (guard) {
         this._set('beforeEnter', guard);
+        return this;
+    }
+
+    children (routes) {
+        this._set('children', routes);
         return this;
     }
 
@@ -62,6 +68,18 @@ export default class Route {
         this._guards = this._guards.concat(guard);
 
         this.config.beforeEnter = multiguard(this._guards);
+    }
+
+    _children (routes) {
+        shared.root = false;
+
+        routes();
+
+        this.config.children = shared.childRoutes.map((route) => route.config);
+
+        shared.childRoutes = [];
+
+        shared.root = true;
     }
 
     _prefix (prefix) {
