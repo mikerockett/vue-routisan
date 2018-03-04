@@ -88,6 +88,8 @@ Use the `options()` method to set all other options on the *route instance*.
 
 This method will not override the `path` and `component` options. They will be ignored if you specify them.
 
+The `children` option expects a callback function instead of an array. Refer to Nested Routes below. 
+
 Reference: [Vue route options](https://router.vuejs.org/en/api/options.html)
 
 ```js
@@ -121,6 +123,18 @@ Route.group({ beforeEnter: guest }, () => {
 });
 ```
 
+### Nested Routes
+
+The `children()` method sets the `children` option on the *route instance*.
+
+```js
+Route.view('/user', 'User').children(() => {
+    Route.view('', 'UserList');
+    Route.view(':id', 'UserDetails');
+    Route.view(':id/edit', 'UserEdit');
+});
+```
+
 ### Route prefixes
 
 Add a prefix to the `path` of each route in a group.
@@ -137,7 +151,7 @@ Route.group({ prefix: '/posts' }, () => {
 
 Options such as `path`, `redirect`, `alias`, and `prefix` are automatically formatted.
 
-Slashes will not be prepended to the paths of [nested routes](https://router.vuejs.org/en/essentials/nested-routes.html).
+Slashes will not be prepended to the paths of nested routes.
 
 ```js
 '/'                // '/'
