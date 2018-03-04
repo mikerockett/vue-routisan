@@ -57,10 +57,10 @@ Route.redirect('/home', '/');
 
 ### Named routes
 
-The `as()` method sets the `name` option on the *route instance*.
+The `name()` method sets the `name` option on the *route instance*.
 
 ```js
-Route.view('/user/profile', 'Profile').as('profile');
+Route.view('/user/profile', 'Profile').name('profile');
 ```
 
 ### Navigation guards
@@ -105,8 +105,7 @@ Some options have aliases for consistency with method names.
 
 ```js
 Route.view('/auth/signup', 'Signup').options({
-    as: 'register', // alias for 'name'
-    guard: guest    // alias for 'beforeEnter'
+    guard: guest // alias for 'beforeEnter'
 });
 ```
 
@@ -138,7 +137,7 @@ Route.group({ prefix: '/posts' }, () => {
 });
 ```
 
-### A note on slashes
+### Automatically formatted paths
 
 Options such as `path`, `redirect`, `alias`, and `prefix` are automatically formatted.
 
