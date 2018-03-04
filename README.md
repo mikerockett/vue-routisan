@@ -30,6 +30,9 @@ import Route from 'vue-routisan';
 Route.setViewResolver((component) => {
     return require('./views/' + component);
 });
+
+// shorthand
+Route.setViewResolver((c) => require('./views/' + c));
 ```
 
 ### Basic usage
