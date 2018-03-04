@@ -86,7 +86,7 @@ Route.view('/admin/dashboard', 'Dashboard').guard([auth, admin]);
 
 Use the `options()` method to set all other options on the *route instance*.
 
-**NOTE:** This will not override the `path` and `component` options. They will be ignored if you specify them.
+This method will not override the `path` and `component` options. They will be ignored if you specify them.
 
 Reference: [Vue route options](https://router.vuejs.org/en/api/options.html)
 
@@ -99,9 +99,7 @@ Route.view('/auth/signin', 'Signin').options({
 });
 ```
 
-### Aliased options
-
-Some options have aliases for consistency with method names.
+`beforeEnter` has the alias `guard` for consistency with the `guard()` method.
 
 ```js
 Route.view('/auth/signup', 'Signup').options({
@@ -113,17 +111,15 @@ Route.view('/auth/signup', 'Signup').options({
 
 Allows you to apply route options to multiple routes.
 
+- Navigation guards defined for the group will take priority over guards defined on the individual routes in the callback.
+- Do not nest groups inside each other, nesting is currently not supported.
+
 ```js
 Route.group({ beforeEnter: guest }, () => {
     Route.view('/auth/password/forgot', 'Forgot');
     Route.view('/auth/password/reset', 'Reset');
 });
 ```
-
-**NOTES:**
-
-- Navigation guards defined for the group will take priority over guards defined on the individual routes in the callback.
-- Do not nest groups inside each other, nesting is currently not supported.
 
 ### Route prefixes
 
@@ -141,6 +137,8 @@ Route.group({ prefix: '/posts' }, () => {
 
 Options such as `path`, `redirect`, `alias`, and `prefix` are automatically formatted.
 
+Slashes will not be prepended to the paths of [nested routes](https://router.vuejs.org/en/essentials/nested-routes.html).
+
 ```js
 '/'                // '/'
 'products'         // '/products'
@@ -148,8 +146,6 @@ Options such as `path`, `redirect`, `alias`, and `prefix` are automatically form
 'shop/checkout'    // '/shop/checkout'
 'password/change/' // '/password/change'
 ```
-
-Slashes will not be prepended to the paths of [nested routes](https://router.vuejs.org/en/essentials/nested-routes.html).
 
 ### Retrieve all routes
 
