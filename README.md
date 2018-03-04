@@ -118,7 +118,10 @@ Route.group({ beforeEnter: guest }, () => {
 });
 ```
 
-**NOTE:** Navigation guards defined for the group will take priority over guards defined on the individual routes in the callback.
+**NOTES:**
+
+- Navigation guards defined for the group will take priority over guards defined on the individual routes in the callback.
+- Do not nest groups inside each other, nesting is currently not supported.
 
 ### Route prefixes
 
