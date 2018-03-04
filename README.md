@@ -144,6 +144,8 @@ Options such as `path`, `redirect`, `alias`, and `prefix` are automatically form
 'password/change/' // '/password/change'
 ```
 
+Slashes will not be prepended to the paths of [nested routes](https://router.vuejs.org/en/essentials/nested-routes.html).
+
 ### Retrieve all routes
 
 `Route.all()` returns an array of all the defined routes.
