@@ -30,6 +30,9 @@ import Route from 'vue-routisan';
 Route.setViewResolver((component) => {
     return require('./views/' + component);
 });
+
+// shorthand
+Route.setViewResolver((c) => require('./views/' + c));
 ```
 
 ### Basic usage
@@ -54,10 +57,10 @@ Route.redirect('/home', '/');
 
 ### Named routes
 
-The `as()` method sets the `name` option on the *route instance*.
+The `name()` method sets the `name` option on the *route instance*.
 
 ```js
-Route.view('/user/profile', 'Profile').as('profile');
+Route.view('/user/profile', 'Profile').name('profile');
 ```
 
 ### Navigation guards
@@ -83,7 +86,9 @@ Route.view('/admin/dashboard', 'Dashboard').guard([auth, admin]);
 
 Use the `options()` method to set all other options on the *route instance*.
 
-**NOTE:** This will not override the `path` and `component` options. They will be ignored if you specify them.
+This method will not override the `path` and `component` options. They will be ignored if you specify them.
+
+The `children` option expects a callback function instead of an array. Refer to Nested Routes below. 
 
 Reference: [Vue route options](https://router.vuejs.org/en/api/options.html)
 
@@ -96,20 +101,20 @@ Route.view('/auth/signin', 'Signin').options({
 });
 ```
 
-### Aliased options
-
-Some options have aliases for consistency with method names.
+`beforeEnter` has the alias `guard` for consistency with the `guard()` method.
 
 ```js
 Route.view('/auth/signup', 'Signup').options({
-    as: 'register', // alias for 'name'
-    guard: guest    // alias for 'beforeEnter'
+    guard: guest // alias for 'beforeEnter'
 });
 ```
 
 ### Route groups
 
 Allows you to apply route options to multiple routes.
+
+- Navigation guards defined for the group will take priority over guards defined on the individual routes in the callback.
+- Do not nest groups inside each other, nesting is currently not supported.
 
 ```js
 Route.group({ beforeEnter: guest }, () => {
@@ -118,7 +123,17 @@ Route.group({ beforeEnter: guest }, () => {
 });
 ```
 
-**NOTE:** Navigation guards defined for the group will take priority over guards defined on the individual routes in the callback.
+### Nested Routes
+
+The `children()` method sets the `children` option on the *route instance*.
+
+```js
+Route.view('/user', 'User').children(() => {
+    Route.view('', 'UserList');
+    Route.view(':id', 'UserDetails');
+    Route.view(':id/edit', 'UserEdit');
+});
+```
 
 ### Route prefixes
 
@@ -132,9 +147,11 @@ Route.group({ prefix: '/posts' }, () => {
 });
 ```
 
-### A note on slashes
+### Automatically formatted paths
 
 Options such as `path`, `redirect`, `alias`, and `prefix` are automatically formatted.
+
+Slashes will not be prepended to the paths of nested routes.
 
 ```js
 '/'                // '/'
