@@ -3,13 +3,12 @@ import shared from './shared';
 
 export default class Routisan {
     constructor () {
-        this._resolver = (component) => component;
         this._routes = [];
         this._groupStack = {};
     }
 
     setViewResolver (resolver) {
-        this._resolver = resolver;
+        shared.resolver = resolver;
     }
 
     _addRoute (path, key, value) {
@@ -23,7 +22,7 @@ export default class Routisan {
     }
 
     view (path, component) {
-        return this._addRoute(path, 'component', this._resolver(component));
+        return this._addRoute(path, 'component', component);
     }
 
     redirect (path, redirect) {

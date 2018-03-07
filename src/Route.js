@@ -1,5 +1,5 @@
-import { fixSlashes, multiguard } from './util';
-import shared from './shared';
+import { fixSlashes } from './util';
+import setters from './setters';
 
 export default class Route {
     constructor (path, key, value) {
@@ -52,36 +52,10 @@ export default class Route {
             value = fixSlashes(value);
         }
 
-        const method = '_' + key;
-
-        if (this[method]) {
-            this[method](value);
+        if (setters.hasOwnProperty(key)) {
+            setters[key](this, value);
         } else {
             this.config[key] = value;
         }
-    }
-
-    _beforeEnter (guard) {
-        guard = (Array.isArray(guard) ? guard : [guard]);
-
-        this._guards = this._guards.concat(guard);
-
-        this.config.beforeEnter = multiguard(this._guards);
-    }
-
-    _children (routes) {
-        shared.root = false;
-
-        routes();
-
-        this.config.children = shared.childRoutes.map((route) => route.config);
-
-        shared.childRoutes = [];
-
-        shared.root = true;
-    }
-
-    _prefix (prefix) {
-        this.config.path = fixSlashes(prefix + this.config.path);
     }
 }
