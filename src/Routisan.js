@@ -1,10 +1,11 @@
 import Route from './Route';
 import shared from './shared';
+import { groupMerge, filterOptions } from './util';
 
 export default class Routisan {
     constructor () {
         this._routes = [];
-        this._groupStack = {};
+        this._groupStack = [];
     }
 
     setViewResolver (resolver) {
@@ -14,7 +15,9 @@ export default class Routisan {
     _addRoute (path, key, value) {
         const route = new Route(path, key, value);
 
-        route.options(this._groupStack);
+        if (this._groupStack.length) {
+            route.options(this._groupStack.slice().reverse()[0]);
+        }
 
         (shared.root ? this._routes : shared.childRoutes).push(route);
 
@@ -30,11 +33,21 @@ export default class Routisan {
     }
 
     group (options, routes) {
-        this._groupStack = options;
+        this._updateGroupStack(options);
 
         routes();
 
-        this._groupStack = {};
+        this._groupStack.pop();
+    }
+
+    _updateGroupStack (options) {
+        options = filterOptions(options, ['beforeEnter', 'prefix']);
+
+        if (this._groupStack.length) {
+            options = groupMerge(options, this._groupStack.slice().reverse()[0]);
+        }
+
+        this._groupStack.push(options);
     }
 
     all () {

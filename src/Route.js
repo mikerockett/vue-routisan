@@ -1,4 +1,4 @@
-import { fixSlashes } from './util';
+import { fixSlashes, filterOptions } from './util';
 import setters from './setters';
 
 export default class Route {
@@ -9,14 +9,13 @@ export default class Route {
     }
 
     options (options) {
-        const valid = [
-            'name', 'components', 'redirect', 'props', 'alias',
-            'children', 'beforeEnter', 'meta', 'caseSensitive',
-            'pathToRegexpOptions', 'guard', 'prefix'
-        ];
+        options = filterOptions(options, [
+            'name', 'components', 'redirect', 'props',
+            'alias', 'children', 'beforeEnter', 'meta',
+            'caseSensitive', 'pathToRegexpOptions', 'prefix'
+        ]);
 
         Object.keys(options)
-            .filter((key) => valid.includes(key))
             .forEach((key) => this._set(key, options[key]));
 
         return this;
@@ -38,15 +37,7 @@ export default class Route {
     }
 
     _set (key, value) {
-        const aliases = {
-            guard: 'beforeEnter'
-        };
-
         const paths = ['redirect', 'alias', 'prefix'];
-
-        if (Object.keys(aliases).includes(key)) {
-            key = aliases[key];
-        }
 
         if (paths.includes(key) && typeof value === 'string') {
             value = fixSlashes(value);

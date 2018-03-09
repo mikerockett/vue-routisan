@@ -1,4 +1,4 @@
-import { fixSlashes, multiguard } from './util';
+import { fixSlashes, getArray, multiguard } from './util';
 import shared from './shared';
 
 export default {
@@ -6,7 +6,7 @@ export default {
         $this.config.component = shared.resolver(component);
     },
     beforeEnter ($this, guard) {
-        guard = (Array.isArray(guard) ? guard : [guard]);
+        guard = getArray(guard);
 
         $this._guards = $this._guards.concat(guard);
 
