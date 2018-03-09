@@ -22,7 +22,7 @@ ___
 
 ### Setting the view resolver
 
-A view resolver is a callback function that should return a Vue component. Setting this allows the `view()` method to automatically require components for your routes. This saves you from having repetitive `import`s and `require`s in the file where you define your routes. 
+A view resolver is a callback function that should return a Vue component. Setting this allows the `view()` method to automatically require components for your routes. This saves you from having repetitive `import`s and `require`s in the file where you define your routes.
 
 ```js
 import Route from 'vue-routisan';
@@ -82,13 +82,25 @@ This applies not only to the `guard()` method, you can do this with any of the m
 Route.view('/admin/dashboard', 'Dashboard').guard([auth, admin]);
 ```
 
+### Nested Routes
+
+The `children()` method sets the `children` option on the *route instance*.
+
+```js
+Route.view('/user', 'User').children(() => {
+    Route.view('', 'UserList');
+    Route.view(':id', 'UserDetails');
+    Route.view(':id/edit', 'UserEdit');
+});
+```
+
 ### Setting other route options
 
 Use the `options()` method to set all other options on the *route instance*.
 
 This method will not override the `path` and `component` options. They will be ignored if you specify them.
 
-The `children` option expects a callback function instead of an array. Refer to Nested Routes below. 
+The `children` option expects a callback function instead of an array (See Nested Routes).
 
 Reference: [Vue route options](https://router.vuejs.org/en/api/options.html)
 
@@ -114,7 +126,7 @@ Route.view('/auth/signup', 'Signup').options({
 Allows you to apply route options to multiple routes.
 
 - Navigation guards defined for the group will take priority over guards defined on the individual routes in the callback.
-- Do not nest groups inside each other, nesting is currently not supported.
+- Route groups can be nested.
 
 ```js
 Route.group({ beforeEnter: guest }, () => {
@@ -123,27 +135,19 @@ Route.group({ beforeEnter: guest }, () => {
 });
 ```
 
-### Nested Routes
-
-The `children()` method sets the `children` option on the *route instance*.
-
-```js
-Route.view('/user', 'User').children(() => {
-    Route.view('', 'UserList');
-    Route.view(':id', 'UserDetails');
-    Route.view(':id/edit', 'UserEdit');
-});
-```
-
 ### Route prefixes
 
 Add a prefix to the `path` of each route in a group.
 
+**DO NOT** use route group prefixes in combination with routes defined inside the `children()` method.
+
 ```js
-Route.group({ prefix: '/posts' }, () => {
-    Route.view('/', 'PostIndex');        // '/posts'
-    Route.view('/create', 'CreatePost'); // '/posts/create'
-    Route.view('/edit', 'EditPost');     // '/posts/edit'
+Route.group({ prefix: '/blog' }, () => {
+    Route.group({ prefix: '/posts' }, () => {
+        Route.view('/', 'PostIndex');        // '/blog/posts'
+        Route.view('/create', 'CreatePost'); // '/blog/posts/create'
+        Route.view('/edit', 'EditPost');     // '/blog/posts/edit'
+    });
 });
 ```
 
