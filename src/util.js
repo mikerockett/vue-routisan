@@ -9,27 +9,27 @@ export const fixSlashes = (path) => {
         path = path.replace(/^\/+|\/+$/g, '');
         path = (shared.root ? `/${path}` : path);
     }
+
     return path;
 };
 
 const swapGuardKey = (options) => {
-    const obj = Object.assign({}, options);
-    if (obj.hasOwnProperty('guard')) {
-        obj.beforeEnter = obj.guard;
-        delete obj.guard;
+    if (options.hasOwnProperty('guard')) {
+        options.beforeEnter = options.guard;
+        delete options.guard;
     }
-    return obj;
+
+    return options;
 };
 
 export const filterOptions = (options, keys) => {
-    options = swapGuardKey(options);
-    return keys.filter((key) => Object.keys(options).includes(key))
-        .reduce((filtered, key) => {
-            if (options.hasOwnProperty(key)) {
-                filtered[key] = options[key];
-            }
-            return filtered;
-        }, {});
+    Object.keys(swapGuardKey(options)).forEach((key) => {
+        if (!keys.includes(key)) {
+            delete options[key];
+        }
+    });
+
+    return options;
 };
 
 const mergePrefix = ($new, $old) => {
