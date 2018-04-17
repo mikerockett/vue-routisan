@@ -22,7 +22,7 @@ ___
 
 ### Setting the view resolver
 
-A view resolver is a callback function that should return a Vue component. Setting this allows the `view()` method to automatically require components for your routes. This saves you from having repetitive `import`s and `require`s in the file where you define your routes.
+The view resolver allows the `view()` method to automatically require components for your routes. This saves you from having repetitive `import`s and `require`s when defining routes.
 
 ```js
 import Route from 'vue-routisan';
@@ -35,9 +35,11 @@ Route.setViewResolver((component) => {
 Route.setViewResolver((c) => require('./views/' + c));
 ```
 
+**NOTE:** If you get the error `Failed to mount component: template or render function not defined.` try changing `require(...)` to `require(...).default`.
+
 ### Basic usage
 
-The `view()` method receives the `path` and `component` route options respectively. If you defined a **view resolver**, you may directly specify the name of the component.
+The `view()` method receives the `path` and `component` route options respectively. If you defined the **view resolver**, you may directly specify the name of the component.
 
 Reference: [Vue route options](https://router.vuejs.org/en/api/options.html)
 
@@ -138,8 +140,6 @@ Route.group({ beforeEnter: guest }, () => {
 ### Route prefixes
 
 Add a prefix to the `path` of each route in a group.
-
-**DO NOT** use route group prefixes in combination with routes defined inside the `children()` method.
 
 ```js
 Route.group({ prefix: '/blog' }, () => {
