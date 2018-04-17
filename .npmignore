@@ -1,7 +1,6 @@
 /.circleci
+/.github
 /.vscode
 .editorconfig
 .eslintrc.json
-CONTRIBUTING.md
-PULL_REQUEST_TEMPLATE.md
 yarn.lock
