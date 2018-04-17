@@ -7,10 +7,10 @@ THEN IT IS NOT AN ISSUE WITH THIS PACKAGE
 
 -->
 
-### What **version** of vue-routisan are you using?
+### What version of vue-routisan are you using?
 [x.x.x]
 
-### Provide a **short but clear description** of the bug.
+### Provide a short but clear description of the bug.
 
 <!-- Description of the bug -->
 
@@ -22,7 +22,7 @@ THEN IT IS NOT AN ISSUE WITH THIS PACKAGE
 
 <!-- What actually happened -->
 
-### Reproduction Link
+### Reproduction link
 
 <!--
 This is not required but this can help me fix the issue a lot faster
