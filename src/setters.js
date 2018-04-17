@@ -24,6 +24,6 @@ export default {
         shared.root = true;
     },
     prefix ($this, prefix) {
-        $this.config.path = fixSlashes(prefix + $this.config.path);
+        $this.config.path = fixSlashes([prefix, $this.config.path]);
     }
 };
