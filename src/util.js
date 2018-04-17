@@ -6,7 +6,9 @@ export const getArray = (item) => (Array.isArray(item) ? item : [item]);
 
 export const fixSlashes = (path) => {
     if (!['/', '*'].includes(path)) {
-        path = path.replace(/^\/+|\/+$/g, '');
+        path = getArray(path)
+            .map((path) => path.replace(/^\/+|\/+$/g, ''))
+            .join('/');
         path = (shared.root ? `/${path}` : path);
     }
 
