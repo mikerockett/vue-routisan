@@ -24,18 +24,15 @@ ___
 
 The view resolver allows the `view()` method to automatically require components for your routes. This saves you from having repetitive `import`s and `require`s when defining routes.
 
+**The view resolver is optional**. If you choose to not configure it, you can `import` a component and pass it directly as the 2nd parameter of the `view()` method.
+
 ```js
 import Route from 'vue-routisan';
 
 Route.setViewResolver((component) => {
-    return require('./views/' + component);
+    return require('./views/' + component).default;
 });
-
-// shorthand
-Route.setViewResolver((c) => require('./views/' + c));
 ```
-
-**NOTE:** If you get the error `Failed to mount component: template or render function not defined.` try changing `require(...)` to `require(...).default`.
 
 ### Basic usage
 
@@ -45,6 +42,14 @@ Reference: [Vue route options](https://router.vuejs.org/en/api/options.html)
 
 ```js
 Route.view('/', 'Home');
+```
+
+#### Without the view resolver
+
+```js
+import Home from './views/Home';
+
+Route.view('/', Home);
 ```
 
 ### Redirect routes
