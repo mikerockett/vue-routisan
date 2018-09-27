@@ -13,15 +13,12 @@ export default {
         $this.config.beforeEnter = multiguard($this._guards);
     },
     children ($this, routes) {
-        shared.root = false;
+        shared.pushState();
 
         routes();
 
-        $this.config.children = shared.childRoutes.map((route) => route.config);
-
-        shared.childRoutes = [];
-
-        shared.root = true;
+        let sharedState = shared.popState();
+        $this.config.children = sharedState.childRoutes.map((route) => route.config);
     },
     prefix ($this, prefix) {
         $this.config.path = fixSlashes([prefix, $this.config.path]);

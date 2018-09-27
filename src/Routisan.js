@@ -19,7 +19,7 @@ export default class Routisan {
             route.options(this._groupStack.slice().reverse()[0]);
         }
 
-        (shared.root ? this._routes : shared.childRoutes).push(route);
+        (shared.isRoot() ? this._routes : shared.getState().childRoutes).push(route);
 
         return route;
     }
