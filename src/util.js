@@ -11,7 +11,7 @@ export const fixSlashes = (path) => {
         path = arrayWrap(path)
             .map((path) => path.replace(/^\/+|\/+$/g, ''))
             .join('/');
-        path = (shared.root ? `/${path}` : path);
+        path = (shared.isRoot() ? `/${path}` : path);
     }
 
     return path;
