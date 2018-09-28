@@ -1,6 +1,6 @@
 import Route from './Route';
 import shared from './shared';
-import { groupMerge, filterOptions } from './util';
+import { groupMerge, filterOptions, arrayLast } from './util';
 
 export default class Routisan {
     constructor () {
@@ -16,7 +16,7 @@ export default class Routisan {
         const route = new Route(path, key, value);
 
         if (this._groupStack.length) {
-            route.options(this._groupStack.slice().reverse()[0]);
+            route.options(arrayLast(this._groupStack));
         }
 
         (shared.root ? this._routes : shared.childRoutes).push(route);
@@ -44,7 +44,7 @@ export default class Routisan {
         options = filterOptions(options, ['beforeEnter', 'prefix']);
 
         if (this._groupStack.length) {
-            options = groupMerge(options, this._groupStack.slice().reverse()[0]);
+            options = groupMerge(options, arrayLast(this._groupStack));
         }
 
         this._groupStack.push(options);
