@@ -18,6 +18,7 @@ export default {
         routes();
 
         let sharedState = shared.popState();
+
         $this.config.children = sharedState.childRoutes.map((route) => route.config);
     },
     prefix ($this, prefix) {

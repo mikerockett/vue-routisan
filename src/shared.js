@@ -1,24 +1,19 @@
 const shared = {
     resolver: (component) => component,
     stack: [],
-
-    pushState: function () {
+    isRoot () {
+        return this.stack.length === 0;
+    },
+    pushState () {
         this.stack.push({
             childRoutes: []
         });
     },
-    popState: function () {
+    popState () {
         return this.stack.pop();
     },
-    /**
-     * getState
-     * @returns Object|undefined
-     */
-    getState: function () {
-        return this.stack[this.stack.length - 1];
-    },
-    isRoot: function () {
-        return !this.stack.length;
+    getState () {
+        return this.stack.slice(-1)[0];
     }
 };
 
