@@ -1,4 +1,4 @@
-import { fixSlashes, arrayWrap, multiguard } from './util';
+import { fixSlashes, arrayWrap, multiguard, arrayLast } from './util';
 import shared from './shared';
 
 export default {
@@ -13,13 +13,13 @@ export default {
         $this.config.beforeEnter = multiguard($this._guards);
     },
     children ($this, routes) {
-        shared.pushState();
+        shared.childStack.push([]);
 
         routes();
 
-        let sharedState = shared.popState();
+        $this.config.children = arrayLast(shared.childStack).map((route) => route.config);
 
-        $this.config.children = sharedState.childRoutes.map((route) => route.config);
+        shared.childStack.pop();
     },
     prefix ($this, prefix) {
         $this.config.path = fixSlashes([prefix, $this.config.path]);

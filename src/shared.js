@@ -1,19 +1,8 @@
 const shared = {
     resolver: (component) => component,
-    stack: [],
+    childStack: [],
     isRoot () {
-        return this.stack.length === 0;
-    },
-    pushState () {
-        this.stack.push({
-            childRoutes: []
-        });
-    },
-    popState () {
-        return this.stack.pop();
-    },
-    getState () {
-        return this.stack.slice(-1)[0];
+        return this.childStack.length === 0;
     }
 };
 
