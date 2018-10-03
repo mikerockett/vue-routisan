@@ -1,4 +1,4 @@
-import { fixSlashes, getArray, multiguard } from './util';
+import { fixSlashes, arrayWrap, multiguard, arrayLast } from './util';
 import shared from './shared';
 
 export default {
@@ -6,22 +6,20 @@ export default {
         $this.config.component = shared.resolver(component);
     },
     beforeEnter ($this, guard) {
-        guard = getArray(guard);
+        guard = arrayWrap(guard);
 
         $this._guards = $this._guards.concat(guard);
 
         $this.config.beforeEnter = multiguard($this._guards);
     },
     children ($this, routes) {
-        shared.root = false;
+        shared.childStack.push([]);
 
         routes();
 
-        $this.config.children = shared.childRoutes.map((route) => route.config);
+        $this.config.children = arrayLast(shared.childStack).map((route) => route.config);
 
-        shared.childRoutes = [];
-
-        shared.root = true;
+        shared.childStack.pop();
     },
     prefix ($this, prefix) {
         $this.config.path = fixSlashes([prefix, $this.config.path]);

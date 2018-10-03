@@ -1,7 +1,9 @@
 const shared = {
     resolver: (component) => component,
-    childRoutes: [],
-    root: true
+    childStack: [],
+    isRoot () {
+        return this.childStack.length === 0;
+    }
 };
 
 export default shared;

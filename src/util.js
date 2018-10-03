@@ -2,14 +2,16 @@ import shared from './shared';
 
 export { default as multiguard } from 'vue-router-multiguard';
 
-export const getArray = (item) => (Array.isArray(item) ? item : [item]);
+export const arrayWrap = (value) => (Array.isArray(value) ? value : [value]);
+
+export const arrayLast = (items) => items.slice(-1)[0];
 
 export const fixSlashes = (path) => {
     if (!['/', '*'].includes(path)) {
-        path = getArray(path)
+        path = arrayWrap(path)
             .map((path) => path.replace(/^\/+|\/+$/g, ''))
             .join('/');
-        path = (shared.root ? `/${path}` : path);
+        path = (shared.isRoot() ? `/${path}` : path);
     }
 
     return path;
@@ -41,9 +43,9 @@ const mergePrefix = ($new, $old) => {
 };
 
 const mergeGuard = ($new, $old) => {
-    $old = ($old.hasOwnProperty('beforeEnter') ? getArray($old.beforeEnter) : []);
+    $old = ($old.hasOwnProperty('beforeEnter') ? arrayWrap($old.beforeEnter) : []);
 
-    return ($new.hasOwnProperty('beforeEnter') ? $old.concat(getArray($new.beforeEnter)) : $old);
+    return ($new.hasOwnProperty('beforeEnter') ? $old.concat(arrayWrap($new.beforeEnter)) : $old);
 };
 
 export const groupMerge = ($new, $old) => {
