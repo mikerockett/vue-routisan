@@ -25,6 +25,6 @@ THEN IT IS NOT AN ISSUE WITH THIS PACKAGE
 ### Reproduction link
 
 <!--
-This is not required but this can help me fix the issue a lot faster
-(Your project's GitHub repository, JSFiddle, CodePen, CodeSandbox, etc.)
+Reproduce the bug in CodeSandbox so that I can fix it a lot faster
+CodeSandbox Vue template: https://codesandbox.io/s/vue
 -->
