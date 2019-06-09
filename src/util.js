@@ -54,7 +54,7 @@ export const groupMerge = ($new, $old) => {
     if (!prefix) {
         return {
             beforeEnter: mergeGuard($new, $old)
-        }
+        };
     }
 
     return {
