@@ -49,8 +49,16 @@ const mergeGuard = ($new, $old) => {
 };
 
 export const groupMerge = ($new, $old) => {
+    let prefix = mergePrefix($new, $old);
+
+    if (!prefix) {
+        return {
+            beforeEnter: mergeGuard($new, $old)
+        }
+    }
+
     return {
         beforeEnter: mergeGuard($new, $old),
-        prefix: mergePrefix($new, $old)
+        prefix: prefix
     };
 };
