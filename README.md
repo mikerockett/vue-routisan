@@ -1,4 +1,4 @@
-# ⚠️ I am unable to maintain this package anymore, if you want to continue development of this I am willing to transfer ownership on GitHub and NPM. ⚠️
+# ⚠️ I am unable to maintain this package anymore. If you want to continue development of this I will completely transfer ownership to you on GitHub and NPM. ⚠️
 
 # <img src="https://user-images.githubusercontent.com/8528269/36801126-23dfb91e-1cec-11e8-850e-9f2f83db1f4a.png" alt="vue-routisan">
 
