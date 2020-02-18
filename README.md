@@ -1,5 +1,3 @@
-# ⚠️ I am unable to maintain this package anymore. If you want to continue development of this I will completely transfer ownership to you on GitHub and NPM. ⚠️
-
 # <img src="https://user-images.githubusercontent.com/8528269/36801126-23dfb91e-1cec-11e8-850e-9f2f83db1f4a.png" alt="vue-routisan">
 
 [![Latest Version on NPM](https://img.shields.io/npm/v/vue-routisan.svg?style=flat-square)](https://www.npmjs.com/package/vue-routisan)
