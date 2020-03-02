@@ -1,10 +1,11 @@
-# <img src="https://user-images.githubusercontent.com/8528269/36801126-23dfb91e-1cec-11e8-850e-9f2f83db1f4a.png" alt="vue-routisan">
+# Vue Routisan
 
 [![Latest Version on NPM](https://img.shields.io/npm/v/vue-routisan.svg?style=flat-square)](https://www.npmjs.com/package/vue-routisan)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://oss.ninja/mit/raniesantos)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-Elegant route definitions for **Vue Router**. Based on Laravel routing system.
+Elegant route definitions for **Vue Router**. Based on the Laravel routing system.
+
+> 🏭 **Routisan 3, a complete rewrite, is under construction.** Progress can be tracked on [the project board](https://github.com/mikerockett/vue-routisan/projects/2). An alpha will be released when feature-parity has been reached. The current dev branch has, as a result, been abandoned. Some of the new features included in that branch, such as setting `meta` and using named views, are being included in v3.
 
 ___
 ## Install
