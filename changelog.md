@@ -4,7 +4,9 @@
 
 ## `v3.0.0-alpha.1`
 
-This is a complete rewrite of Routisan, from the ground up. The aim was to provide a more context-aware and efficient way of building up a route-tree without changing the vast majority of the API, which makes the upgrade process relatively straight-forward. Note, however, that this re-build brings Vue routing a little close to Laravel routing and, as such, has a few breaking changes.
+This is a complete rewrite of Routisan, from the ground up. The aim was to provide a more context-aware and efficient way of building up a route-tree without changing the vast majority of the API, which makes the upgrade process relatively straight-forward.
+
+Note, however, that this rebuild brings Vue routing a little closer to Laravel’s routing syntax and, as such, has a few **breaking changes**.
 
 Your setup will determine upgrade-complexity, however the [upgrade guide](upgrading.md) will help you out.
 
