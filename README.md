@@ -16,6 +16,8 @@ Elegant, fluent route definitions for [Vue Router](https://router.vuejs.org/), i
 - [Basic Routes](#basic-routes)
   - [Named Views](#named-views)
   - [Named Routes](#named-routes)
+- [Fallbacks and Asterisks](#fallbacks-and-asterisks)
+- [Aliasing Routes](#aliasing-routes)
 - [Nesting Routes](#nesting-routes)
 - [Grouping Routes](#grouping-routes)
 - [Grouping and Nesting Routes](#grouping-and-nesting-routes)
@@ -84,6 +86,7 @@ export const router = new Router({
 Before we dive into the sugary goodness, let’s talk about view resolution. Simply put, Routisan allows you to define a custom view resolver function that will be called when resolving the components for your routes. By default, the resolver will simply return the view, as provided in your route definition, which means you need to resolve the rendered component yourself:
 
 ```js
+import { Route } from 'vue-routisan'
 import Home from '@/views/Home'
 
 Route.view('/', Home)
@@ -161,6 +164,28 @@ If you’d like to use a different character-separator, you can define that char
 Factory.withNameSeparator('-')
 ```
 
+## Fallbacks and Asterisks
+
+Akin to a 404, a fallback route is simply registered in the case a requested route does not exist. These can be registered using the `fallback()` helper method:
+
+```js
+Route.fallback('ViewNotFound')
+```
+
+However, If you need dedicated fallbacks for different type of routes, you'll need to stick to the `view` method and use the `*` wildcard, as prescribed by VueRouter:
+
+```js
+Route.view('users/*', 'UserRouteNotFound')
+```
+
+## Aliasing Routes
+
+To make a route accessible from two URIs, simply use the `alias()` method on an existing Route instance:
+
+Route('about', 'About').alias('about-us')
+
+> The `About` view will now be available to both `/about` and `/about-us`.
+
 ## Nesting Routes
 
 Routisan provides a fluent API for nesting your routes as *children* by using a callback passed to the route instance’s `children()` method. Naturally, you can nest as deeply as you like. Let’s expand on the last example by adding a few more account-management routes:
@@ -196,7 +221,7 @@ VueRouter doesn’t understand the concept of grouping routes – it only knows 
 
 The `group()` method takes two arguments: the first is an options object, and the second is the callback that defines new routes within the group.
 
-Here’s a simple example that sets a prefix and a name on the grouped routes:
+Here’s a simple example that sets a **prefix** and a **name** on the grouped routes:
 
 ```js
 Route.group({ prefix: 'contact', name: 'contact' }, () => {
@@ -205,12 +230,12 @@ Route.group({ prefix: 'contact', name: 'contact' }, () => {
 })
 ```
 
-This will generate two routes that are independant of one another, not compiled as *children* of `contact`:
+This will generate two routes that are independent of one another, not compiled as *children* of `contact`:
 
 - `/contact/details`
 - `/contact/map`
 
-As wth nested routes, the names will automatically cascade, much like the prefix will cascade.
+As with nested routes, the names will automatically cascade, much like the prefix will cascade.
 
 ## Grouping and Nesting Routes
 
@@ -257,8 +282,8 @@ With 3.x, a more expressive API was introduced, which allowed for the removal of
 
 ### Defining Guards
 
-To define a new guard, simply create a class that extends `Guard` and implements the `handle` method. Here’s a simple example.
-`
+To define a new guard, simply create a class that extends `Guard` and implements the `handle` method. Here’s a simple example:
+
 ```js
 import { Guard } from 'vue-routisan'
 
@@ -269,7 +294,7 @@ class NavigationGuard extends Guard {
 }
 ```
 
-The instantiated class essentially wraps a Promise, which allows you to calculate or fetch the result of a condition and then `resolve()` or `reject()` based on the outcome of that condition.
+The instantiated class essentially wraps a Promise, which allows you to determine whether or not the user should be allowed to continue to the route, and then `resolve()` or `reject()` based on that.
 
 A common example is to check whether or not the user is authenticated. If they need to sign in, then the guard needs to take them to a sign-in view:
 
@@ -314,6 +339,8 @@ Once registered, you can attach the guard to the route using the `guard()` metho
 Route.view('change-password', 'ChangePassword').guard('AuthenticationGuard')
 Route.view('change-password', 'ChangePassword').guard('auth') // if you registered with an alias
 ```
+
+> Note how guards are referenced using strings, and not directly. Remember, guards are registered with the Factory, which will resolve the guard by name when it needs it.
 
 ### Multiple Guards
 

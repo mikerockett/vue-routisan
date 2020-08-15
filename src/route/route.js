@@ -44,7 +44,7 @@ export class Route {
 
   alias(alias) {
     assertString(name, 'alias')
-    this.alias = Factory._cleanPath(alias)
+    this._alias = Factory._cleanPath(alias)
     return this
   }
 
