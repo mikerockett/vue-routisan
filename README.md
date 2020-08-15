@@ -32,6 +32,7 @@ Elegant, fluent route definitions for [Vue Router](https://router.vuejs.org/), i
   - [Multiple Guards](#multiple-guards)
   - [Guarding Nested Routes](#guarding-nested-routes)
   - [Guarding Grouped Routes](#guarding-grouped-routes)
+  - [Debugging Guards](#debugging-guards)
 - [License](#license)
 - [Contributing](#contributing)
 
@@ -416,6 +417,22 @@ Route.group({ prefix: 'billing', name: 'billing', guard: 'auth' /** or guard: ['
   Route.view('history', 'Billing/History').name('history')
   Route.view('payment-methods', 'Billing/PaymentMethods').name('payment-methods')
 })
+```
+
+### Debugging Guards
+
+Useful for debugging, guards may log the outcome of their inner promises by declaring a method that returns a boolean, called `logPromiseOutcomes`:
+
+```js
+import { Guard } from 'vue-routisan'
+
+class NavigationGuard extends Guard {
+  logPromiseOutcomes() {
+    return process.env.NODE_ENV !== 'production'
+  }
+
+  // … handle
+}
 ```
 
 ## License
