@@ -315,7 +315,7 @@ Once the compiled routes have been passed to VueRouter, you’d get the routes y
 
 ## Navigation Guards
 
-Routisan provides a simple, Promise-based API for guarding your routes. This allows you to easily define your guards once and automatically have `beforeEach` handle them on your behalf.
+Routisan provides a simple, Promise-based API for guarding your routes. This allows you to easily define your guards once and automatically have `beforeEnter` handle them on your behalf.
 
 In 2.x, guards were simple functions that you passed to `guard()` or `beforeEnter`. These were processed using `vue-router-multiguard`, which simply allowed you to provide more than one guard function to a route.
 
