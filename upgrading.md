@@ -8,56 +8,54 @@
 
 `Route` is now a named export:
 
-**Before:**
-
-```js
-import Route from 'vue-routisan'
-```
-
-**After:**
-
-```js
-import { Route } from 'vue-routisan'
+```diff
+-- import Route from 'vue-routisan'
+++ import { Route } from 'vue-routisan'
 ```
 
 ### View Resolvers
 
 Calls to `Route.setViewResolver` must be changed to `Factory.usingResolver`:
 
-```js
-import { Factory } from 'vue-routisan'
-Factory.usingResolver(view => () => import(`@/views/${view}`))
+```diff
+-- Route.setViewResolver(view => () => import(`@/views/${view}`))
+++ Factory.usingResolver(view => () => import(`@/views/${view}`))
 ```
 
 ### Compiled Routes
 
 `Route.all()` has been replaced with `Factory.routes()`:
 
-```js
-new Router({
-  routes: Factory.routes()
-})
+```diff
+-- new Router({
+--   routes: Route.all()
+++   routes: Factory.routes()
+-- })
 ```
 
 ### Named Views
 
 These are now declared as an optional third argument to `view`:
 
-**Before:**
-
-```js
-Route.view('path', {
-  default: 'DefaultComponent',
-  other: 'OtherComponent',
-})
+```diff
+-- Route.view('path', {
+--   default: 'DefaultComponent',
+--   other: 'OtherComponent',
+-- })
+++ Route.view('path', 'DefaultComponent', {
+++   other: 'OtherComponent',
+++ })
 ```
 
-**After:**
+### Named Routes
 
-```js
-Route.view('path', 'DefaultComponent', {
-  other: 'OtherComponent',
-})
+In v2, named routes did not cascade to their child routes, which meant redeclaring the parent name in each child, where necessary.
+
+```diff
+    Route.view('parent', 'Parent').name('parent').children(() => {
+--    Route.view('child', 'Child').name('parent.child')
+++    Route.view('child', 'Child').name('child')
+    })
 ```
 
 ### Guards
