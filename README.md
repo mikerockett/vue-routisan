@@ -20,6 +20,12 @@ Elegant, fluent route definitions for [Vue Router](https://router.vuejs.org/), i
 - [Grouping Routes](#grouping-routes)
 - [Grouping and Nesting Routes](#grouping-and-nesting-routes)
 - [Navigation Guards](#navigation-guards)
+  - [Defining Guards](#defining-guards)
+  - [Registering Guards](#registering-guards)
+  - [Using  Guards](#using-guards)
+  - [Multiple Guards](#multiple-guards)
+  - [Guarding Nested Routes](#guarding-nested-routes)
+  - [Guarding Grouped Routes](#guarding-grouped-routes)
 
 ---
 
@@ -249,6 +255,8 @@ In 2.x, guards were simple functions that you passed to `guard()` or `beforeEnte
 
 With 3.x, a more expressive API was introduced, which allowed for the removal of multiguard in favour of a more automated approach using classes and Promises.
 
+### Defining Guards
+
 To define a new guard, simply create a class that extends `Guard` and implements the `handle` method. Here’s a simple example.
 `
 ```js
@@ -276,6 +284,70 @@ class AuthenticationGuard extends Guard {
       : reject({ name: 'auth.signin' })
   }
 }
+```
+
+### Registering Guards
+
+In order to apply a guard to a route, it must first be registered with the Factory:
+
+```js
+import { AuthenticationGuard } from '@/routing/guards/authentication-guard'
+
+Factory.withGuards({
+  AuthenticationGuard
+})
+```
+
+If you would like to alias the name of the guard to something shorter, you can provide a key:
+
+```js
+Factory.withGuards({
+  'auth': AuthenticationGuard
+})
+```
+
+### Using  Guards
+
+Once registered, you can attach the guard to the route using the `guard()` method on an existing Route instance:
+
+```js
+Route.view('change-password', 'ChangePassword').guard('AuthenticationGuard')
+Route.view('change-password', 'ChangePassword').guard('auth') // if you registered with an alias
+```
+
+### Multiple Guards
+
+If you have registered and would like to use more than one guard, simply pass each one as an additional argument:
+
+```js
+Factory.withGuards({
+  'auth': AuthenticationGuard,
+  MustBeSuper
+})
+
+Route.view('user/:user/tokens/revoke', 'RevokeUserTokens').guard('auth', 'MustBeSuper')
+```
+
+### Guarding Nested Routes
+
+To guard all the children of a route, simply set the guard on the parent route, and Routisan will automatically cascade them down to each child route. Expanding on a previous example:
+
+```js
+Route.view('account', 'AccountView').guard('auth').children(() => {
+  Route.view('/', 'ManageAccount')
+  Route.view('/emails', 'ManageEmails')
+})
+```
+
+### Guarding Grouped Routes
+
+Likewise, you can guard a group of routes by providing the `guard` key to the group’s options. Provide either a string or an array of guards to apply to all routes in the group:
+
+```js
+Route.group({ prefix: 'billing', name: 'billing', guard: 'auth' /** or guard: ['auth', 'otp-ok'] */ }, () => {
+  Route.view('history', 'Billing/History').name('history')
+  Route.view('payment-methods', 'Billing/PaymentMethods').name('payment-methods')
+})
 ```
 
 **Work in progress…**
