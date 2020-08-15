@@ -196,9 +196,9 @@ When adding paramaters to routes in VueRouter, you are limited to the `:colon` f
 
 Additional notes:
 
-- **Optional parameters** may be defined by placing the question-mark outside of the curlies. Ex, `{user}?` → `:user?`.
-- **Constraining parameters** to expressions is done by placing them outside of the curlies. Ex, `{user}(\\d+)` → `:user(\\d+)`.
-- **Aliased constraints** for numbers and strings are available: Ex, `user/{user}(number)` → `user/:user(\\d+)` and `posts/{slug}(string)` → `posts/:slug(\\w+)`
+- **Optional parameters** may be defined by placing the question-mark outside of the curlies. Ex, `{user}?` is compiled to `:user?`.
+- **Constraining parameters** to expressions is done by placing them outside of the curlies. Ex, `{user}(\\d+)` is compiled to `:user(\\d+)`.
+- **Aliased constraints** for numbers and strings are available: Ex, `user/{user}(number)` is compiled to `user/:user(\\d+)` and `posts/{slug}(string)` is compiled to `posts/:slug(\\w+)`
 
 ## Advanced Pattern Matching
 
