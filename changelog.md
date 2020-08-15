@@ -26,7 +26,7 @@ Apart from this, here's a list that details everything that's been added, change
   - Route parameters may now be declared using `{curly braces}` in addition to `:colons`.
   - Additionally, if two parameters are `{joined}{together}`, they will be separated by a slash (`/`).
   - The `{all}` paramater, which translates to `(.*)`, was added.
-  - The `(number)` and `(string)`, which translate to `(\\d+)` and `(\\w+)` respectively, were added.
+  - The `(number)` and `(string)` constraint-aliases, which translate to `(\\d+)` and `(\\w+)` respectively, were added.
   - For debugging, you can call `Route.dump()` to see all compiled routes in the console. `Factory.dump()` is also available and shows what the routes look like before compilation. Note, though, that internal variable names are mangled by Terser, so you'll need to figure out your way around the tree structure.
 
 ### Changed
