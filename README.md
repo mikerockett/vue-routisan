@@ -16,6 +16,7 @@ Elegant, fluent route definitions for [Vue Router](https://router.vuejs.org/), i
 - [Basic Routes](#basic-routes)
   - [Named Views](#named-views)
   - [Named Routes](#named-routes)
+- [Redirects](#redirects)
 - [Fallbacks and Asterisks](#fallbacks-and-asterisks)
 - [Aliasing Routes](#aliasing-routes)
 - [Parameter Matching](#parameter-matching)
@@ -164,6 +165,16 @@ If you’d like to use a different character-separator, you can define that char
 
 ```js
 Factory.withNameSeparator('-')
+```
+
+##  Redirects
+
+To perform a simple redirect from one route to another, you can use the `redirect()` method on the Route builder:
+
+```js
+Route.redirect('home', '/')
+Route.redirect('home', { name: 'home' })
+Route.redirect('home', (to) => /** Return the path or location to redirect to */)
 ```
 
 ## Fallbacks and Asterisks
