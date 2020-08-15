@@ -11,7 +11,8 @@ Elegant, fluent route definitions for [Vue Router](https://router.vuejs.org/), i
 
 ---
 
-- [Get Started](#get-started)
+- [Getting Started](#getting-started)
+- [Upgrading from v2](#upgrading-from-v2)
 - [View Resolution](#view-resolution)
 - [Basic Routes](#basic-routes)
   - [Named Views](#named-views)
@@ -31,6 +32,8 @@ Elegant, fluent route definitions for [Vue Router](https://router.vuejs.org/), i
   - [Multiple Guards](#multiple-guards)
   - [Guarding Nested Routes](#guarding-nested-routes)
   - [Guarding Grouped Routes](#guarding-grouped-routes)
+- [License](#license)
+- [Contributing](#contributing)
 
 ---
 
@@ -63,7 +66,7 @@ This produces an array of routes in the format Vue Router expects to see, and fo
 | /blog/:post/edit  | Blog/Posts/Edit (rednered within Blog/Post)  | blog.single-post.edit  |
 | /blog/:post/stats | Blog/Posts/Stats (rednered within Blog/Post) | blog.single-post.stats |
 
-## Get Started
+## Getting Started
 
 Made up of two primary components, `Route` and `Factory`, Routisan is really easy to use. Simply declare your routes and add them to the Vue Router instance:
 
@@ -83,6 +86,10 @@ export const router = new Router({
   routes: Factory.routes()
 })
 ```
+
+## Upgrading from v2
+
+⚠️ **v3 contains breaking changes.** Please see the [upgrade guide](upgrading.md) and [changelog](changelog.md) for more information.
 
 ## View Resolution
 
@@ -411,4 +418,14 @@ Route.group({ prefix: 'billing', name: 'billing', guard: 'auth' /** or guard: ['
 })
 ```
 
-**Work in progress…**
+## License
+
+Vue Routisan is licensed under the ISC license, which is more permissive variant of the MIT license. You can read the license [here](license.md).
+
+## Contributing
+
+If you would like to contribute code to Vue Routisan, simply open a Pull Request containing the changes you would like to see. Please provide a proper description of the changes, whether they fix a bug, enhance an existing feature, or add a new feature.
+
+If you spot a bug and don’t know how to fix it (or just don’t have the time), simply [open an issue](https://github.com/mikerockett/vue-routisan/issues/new). Please ensure the issue is descriptive, and contains a link to a reproduction of the issue. Additionally, please prefix the title with the applicable version of Routisan, such as `[3.0]`.
+
+Feature requests may also be submitted by opening an issue – please prefix the title with "Feature Request"
