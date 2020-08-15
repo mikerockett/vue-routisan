@@ -1,211 +1,281 @@
-# Vue Routisan
+<img src="https://rockett.pw/git-assets/vue-routisan/logo.svg" alt="Vue Routisan" width="250">
 
-[![Latest Version on NPM](https://img.shields.io/npm/v/vue-routisan.svg?style=flat-square)](https://www.npmjs.com/package/vue-routisan)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://oss.ninja/mit/raniesantos)
+Elegant, fluent route definitions for [Vue Router](https://router.vuejs.org/), inspired by [Laravel](https://laravel.com).</p>
 
-Elegant route definitions for **Vue Router**. Based on the Laravel routing system.
+![Release 3.x](https://rockett.pw/git-assets/vue-routisan/release-3x.badge.svg)
+![Made with JavaScript](https://rockett.pw/git-assets/badges/javascript.badge.svg)
+![Gluten Free](https://rockett.pw/git-assets/badges/gluten-free.badge.svg)
+![Built with ♥](https://rockett.pw/git-assets/badges/with-love.badge.svg)
 
-> 🏭 **Routisan 3, a complete rewrite, is under construction.** Progress can be tracked on [the project board](https://github.com/mikerockett/vue-routisan/projects/2). An alpha will be released when feature-parity has been reached. The current dev branch has, as a result, been abandoned. Some of the new features included in that branch, such as setting `meta` and using named views, are being included in v3.
+![`npm i vue-routisan // yarn add vue-routisan`](https://rockett.pw/git-assets/vue-routisan/install.badge.svg)
 
-___
-## Install
+---
 
-You can install this package via yarn (or npm):
+- [Get Started](#get-started)
+- [View Resolution](#view-resolution)
+- [Basic Routes](#basic-routes)
+  - [Named Views](#named-views)
+  - [Named Routes](#named-routes)
+- [Nesting Routes](#nesting-routes)
+- [Grouping Routes](#grouping-routes)
+- [Grouping and Nesting Routes](#grouping-and-nesting-routes)
+- [Navigation Guards](#navigation-guards)
 
-```bash
-$ yarn add vue-routisan
-```
+---
 
-___
-## Usage
-
-### Setting the view resolver
-
-The view resolver allows the `view()` method to automatically require components for your routes. This saves you from having repetitive `import`s and `require`s when defining routes.
-
-**The view resolver is optional**. If you choose to not configure it, you can `import` a component and pass it directly as the 2nd parameter of the `view()` method.
-
-```js
-import Route from 'vue-routisan';
-
-Route.setViewResolver((component) => {
-    return require('./views/' + component).default;
-});
-```
-
-### Basic usage
-
-The `view()` method receives the `path` and `component` route options respectively. If you defined the **view resolver**, you may directly specify the name of the component.
-
-Reference: [Vue route options](https://router.vuejs.org/en/api/options.html)
+Routisan provides you with a friendlier way to declare route definitions for Vue Router. Inspired by Laravel, it uses chained calls to build up your routes, allowing you to group and nest as deeply as you like.
 
 ```js
-Route.view('/', 'Home');
+Route.view('blog', 'Blog').name('blog').children(() => {
+  // All Posts
+  Route.view('/', 'Blog/Posts').name('posts')
+
+  // Single Post
+  Route.view('{post}', 'Blog/Post').name('single-post').children(() => {
+    Route.view('edit', 'Blog/Post/Edit').name('edit')
+    Route.view('stats', 'Blog/Post/Stats').name('stats')
+  })
+})
 ```
 
-#### Without the view resolver
+This produces an array of routes in the format Vue Router expects to see, and follows a behaviour somewhat similar to Laravel’s router, such as:
+
+- Using callbacks to iteratively collect routes
+- Correctly joining nested routes together, regardles of prefixed slashes
+- Correctly joining the names of nested routes, using a separator of your choice
+
+**The above example produces the following route definitions:**
+
+| Path              | Component                                    | Name                   |
+| ----------------- | -------------------------------------------- | ---------------------- |
+| /blog             | Blog/Posts (rendered within Blog)            | blog.posts             |
+| /blog/:post/edit  | Blog/Posts/Edit (rednered within Blog/Post)  | blog.single-post.edit  |
+| /blog/:post/stats | Blog/Posts/Stats (rednered within Blog/Post) | blog.single-post.stats |
+
+## Get Started
+
+Made up of two primary components, `Route` and `Factory`, Routisan is really easy to use. Simply declare your routes and add them to the Vue Router instance:
 
 ```js
-import Home from './views/Home';
+import Vue from 'vue'
+import Router from 'vue-router'
+import { Route, Factory } from 'vue-routisan'
 
-Route.view('/', Home);
+// Install VueRouter
+Vue.use(Router)
+
+// Define your routes…
+
+// Export a new router with Routisan’s routes applied.
+export const router = new Router({
+  mode: 'history',
+  routes: Factory.routes()
+})
 ```
 
-### Redirect routes
+## View Resolution
 
-The `redirect()` method receives the `path` and `redirect` route options respectively.
+Before we dive into the sugary goodness, let’s talk about view resolution. Simply put, Routisan allows you to define a custom view resolver function that will be called when resolving the components for your routes. By default, the resolver will simply return the view, as provided in your route definition, which means you need to resolve the rendered component yourself:
 
 ```js
-Route.redirect('/home', '/');
+import Home from '@/views/Home'
+
+Route.view('/', Home)
 ```
 
-**NOTE:** The methods `view()` and `redirect()` both return a *route instance*.
+More often than not, though, you’ll want to avoid two things:
 
-### Named routes
+1. `import` repetition
+2. Non-async components bloating up your bundle
 
-The `name()` method sets the `name` option on the *route instance*.
+To do this, you can make use of Vue Router’s async component syntax by either passing an async import function to each route, or by giving the Factory a resolver function:
+
+**Passing in manually:**
 
 ```js
-Route.view('/user/profile', 'Profile').name('profile');
+import { Route } from 'vue-routisan'
+
+Route.view('/', () => import('@/views/Home'))
 ```
 
-### Navigation guards
-
-The `guard()` method sets the `beforeEnter` option on the *route instance*.
+**Defining a resolver function (recommended method):**
 
 ```js
-const auth = (to, from, next) => { /* must be logged in */ };
-const admin = (to, from, next) => { /* user must be admin */ };
+import { Route, Factory } from 'vue-routisan'
 
-Route.view('/account/settings', 'Settings').guard(auth);
+Factory.usingResolver(path => () => import(`@/views/${path}`))
+Route.view('/', 'Home')
 ```
 
-You may also provide an array of guards. They will be executed in the order they are listed in the array.
+This approach is recommended as you only need to declare the resolver once, and Routisan will use it for every single route you define.
 
-This applies not only to the `guard()` method, you can do this with any of the methods below that can apply navigation guards to routes.
+With that out of the way, let’s jump into the basics. Going forward, we’ll assume that a resolver is being used, just to simplify the examples.
+
+## Basic Routes
+
+As shown above, a simple route is comprised of a `path` and a `view`, passed in via `Route.view()`, which returns a new `Route` instance.
+
+To expand on that, Routisan will automatically sanitize slashes on your behalf, injecting them where they’re needed, and removing them where they’re not (this includes removing extra consecutive slashes).
 
 ```js
-Route.view('/admin/dashboard', 'Dashboard').guard([auth, admin]);
+Route.view('about', 'About')
+Route.view('/company/', 'Company')
 ```
 
-### Nested Routes
+These two routes will be compiled as `/about` and `/company`, respectively.
 
-The `children()` method sets the `children` option on the *route instance*.
+When you use nested routes, the leading slashes will automatically be omitted – more on that in the “Nesting Routes” section.
+
+### Named Views
+
+If you’re using [named views](https://router.vuejs.org/guide/essentials/named-views.html), you’ll want to declare additional views that VueRouter will render. This can be done with the optional third argument, `additionalViews`:
 
 ```js
-Route.view('/user', 'User').children(() => {
-    Route.view('', 'UserList');
-    Route.view(':id', 'UserDetails');
-    Route.view(':id/edit', 'UserEdit');
-});
+Route.view('about', 'About', {
+  sidebar: 'Sidebars/About',
+  navigator: 'Navigators/About'
+})
 ```
 
-### Setting other route options
+Internally, Routisan does not provide the `component` key to the compiled route. Rather, it provides a `components` key, and always sets the `default` to the provided second argument. By doing this, we simplify the compilation process, where an additional check is no longer required.
 
-Use the `options()` method to set all other options on the *route instance*.
+### Named Routes
 
-This method will not override the `path` and `component` options. They will be ignored if you specify them.
-
-The `children` option expects a callback function instead of an array (See Nested Routes).
-
-Reference: [Vue route options](https://router.vuejs.org/en/api/options.html)
+Support for [named routes](https://router.vuejs.org/guide/essentials/named-routes.html) is baked into Routisan, using the `name()` method on an existing `Route` instance:
 
 ```js
-const guest = (to, from, next) => { /* already logged in */ };
-
-Route.view('/auth/signin', 'Signin').options({
-    name: 'login',
-    beforeEnter: guest
-});
+Route.view('account', 'ManageAccount').name('manage-account')
 ```
 
-`beforeEnter` has the alias `guard` for consistency with the `guard()` method.
+To expand on this functionality, Routisan introduces similar behaviour that comes from Laravel’s router, where nested names are automatically cascaded, using the character-separator of your choice (defaults to a `.`). Unlike Laravel, however, you do not need to suffix the parent name with the separator – this will be done for you. More on this in the “Nesting Routes” section.
+
+If you’d like to use a different character-separator, you can define that character in the Factory:
 
 ```js
-Route.view('/auth/signup', 'Signup').options({
-    guard: guest // alias for 'beforeEnter'
-});
+Factory.withNameSeparator('-')
 ```
 
-### Route groups
+## Nesting Routes
 
-Allows you to apply route options to multiple routes.
-
-- Navigation guards defined for the group will take priority over guards defined on the individual routes in the callback.
-- Route groups can be nested.
+Routisan provides a fluent API for nesting your routes as *children* by using a callback passed to the route instance’s `children()` method. Naturally, you can nest as deeply as you like. Let’s expand on the last example by adding a few more account-management routes:
 
 ```js
-Route.group({ beforeEnter: guest }, () => {
-    Route.view('/auth/password/forgot', 'Forgot');
-    Route.view('/auth/password/reset', 'Reset');
-});
+Route.view('account', 'AccountView').children(() => {
+  Route.view('/', 'ManageAccount')
+  Route.view('/emails', 'ManageEmails')
+})
 ```
 
-### Route prefixes
+Here, `AccountView` would be the view that contains the `<router-view />` for child routes.
 
-Add a prefix to the `path` of each route in a group.
+> **Leading slashes** will be removed from child routes, otherwise the route path above would simply be `/emails`, not `/account/emails`. The aim here is to compile routes according to natural expectations of the tree-structure provided.
+
+As indicated above, you can cascade route names, without needed to re-define the prefix of a nested name. Expanding on the above example:
 
 ```js
-Route.group({ prefix: '/blog' }, () => {
-    Route.group({ prefix: '/posts' }, () => {
-        Route.view('/', 'PostIndex');        // '/blog/posts'
-        Route.view('/create', 'CreatePost'); // '/blog/posts/create'
-        Route.view('/edit', 'EditPost');     // '/blog/posts/edit'
-    });
-});
+Route.view('account', 'AccountView').name('account').children(() => {
+  Route.view('/', 'ManageAccount').name('manage')
+  Route.view('/emails', 'ManageEmails').name('emails')
+})
 ```
 
-### Automatically formatted paths
+This would produce a set of routes with the following names:
 
-Options such as `path`, `redirect`, `alias`, and `prefix` are automatically formatted.
+- `/account` → `account.manage`
+- `/account/emails` → `account.emails`
 
-Slashes will not be prepended to the paths of nested routes.
+## Grouping Routes
+
+VueRouter doesn’t understand the concept of grouping routes – it only knows how to nest. By providing an abstraction layer on top of VueRouter, we can add the ability to group routes, which allows you to set names, prefixes, and guards (more on that to follow) for each route declared in the callback passed to `group()` on an existing Route instance.
+
+The `group()` method takes two arguments: the first is an options object, and the second is the callback that defines new routes within the group.
+
+Here’s a simple example that sets a prefix and a name on the grouped routes:
 
 ```js
-'/'                // '/'
-'products'         // '/products'
-'categories/'      // '/categories'
-'shop/checkout'    // '/shop/checkout'
-'password/change/' // '/password/change'
+Route.group({ prefix: 'contact', name: 'contact' }, () => {
+  Route.view('details', 'Contact/Details').name('details')
+  Route.view('map', 'Contact/Map').name('map')
+})
 ```
 
-### Retrieve all routes
+This will generate two routes that are independant of one another, not compiled as *children* of `contact`:
 
-`Route.all()` returns an array of all the defined routes.
+- `/contact/details`
+- `/contact/map`
 
-#### router/routes.js
+As wth nested routes, the names will automatically cascade, much like the prefix will cascade.
+
+## Grouping and Nesting Routes
+
+Sometimes, you might find that you want to mix nesting and grouping together – Routisan supports this out of the box:
 
 ```js
-import Route from 'vue-routisan';
+Route.group({ prefix: 'account', name: 'account' }, () => {
+  Route.view('/', 'ManageAccount').name('manage')
 
-// define view resolver
+  Route.group({ prefix: 'subscription', name: 'subscription' }, () => {
+    Route.view('/', 'ViewSubscription').name('view')
+    Route.view('cancel', 'CancelSubscription').name('cancel')
 
-// define routes
+    Route.view('upgrade', 'UpgradeSubscription').name('upgrade').children(() => {
+      Route.group({ prefix: 'steps' }, () => {
+        Route.view('select-new-plan', 'SelectNewPlan').name('select-new-plan')
+        Route.view('review-payment-method', 'ReviewPaymentMethod').name('review-payment-method')
+      })
+    })
+  })
 
-export default Route.all();
+  Route.view('cards', 'ManageCards').name('cards')
+})
 ```
 
-#### router/index.js
+This is a relatively complex setup that would otherwise be quite verbose without the help of Routisan, which allows an infinite depth. It also knows to not apply prefixes where they are not needed. Specifically, this means that child routes within a group will not attain that group’s prefix, as VueRoute takes care of that part for you.
+
+Once the compiled routes have been passed to VueRouter, you’d get the routes you expect:
+
+- `/account`
+- `/account/subscription`
+- `/account/subscription/cancel`
+- `/account/subscription/upgrade/steps/select-new-plan`
+- `/account/subscription/upgrade/steps/review-payment-method`
+- `/account/cards`
+
+## Navigation Guards
+
+Routisan provides a simple, Promise-based API for guarding your routes. This allows you to easily define your guards once and automatically have `beforeEach` handle them on your behalf.
+
+In 2.x, guards were simple functions that you passed to `guard()` or `beforeEnter`. These were processed using `vue-router-multiguard`, which simply allowed you to provide more than one guard function to a route.
+
+With 3.x, a more expressive API was introduced, which allowed for the removal of multiguard in favour of a more automated approach using classes and Promises.
+
+To define a new guard, simply create a class that extends `Guard` and implements the `handle` method. Here’s a simple example.
+`
+```js
+import { Guard } from 'vue-routisan'
+
+class NavigationGuard extends Guard {
+  handle(resolve, reject, { from, to }) {
+    // resolve or reject based on a certain condition
+  }
+}
+```
+
+The instantiated class essentially wraps a Promise, which allows you to calculate or fetch the result of a condition and then `resolve()` or `reject()` based on the outcome of that condition.
+
+A common example is to check whether or not the user is authenticated. If they need to sign in, then the guard needs to take them to a sign-in view:
 
 ```js
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import routes from './routes';
+import { Guard } from 'vue-routisan'
+import { isAuthenticated } from '@/services/auth'
 
-Vue.use(VueRouter);
-
-export default new VueRouter({
-    mode: 'history',
-    routes: routes
-});
+class AuthenticationGuard extends Guard {
+  handle(resolve, reject, { from, to }) {
+    isAuthenticated()
+      ? resolve()
+      : reject({ name: 'auth.signin' })
+  }
+}
 ```
 
-___
-## Contributing
-
-Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
-
-___
-## License
-
-Released under the [MIT License](https://oss.ninja/mit/raniesantos).
+**Work in progress…**

@@ -1,58 +1,44 @@
 {
   "name": "vue-routisan",
-  "version": "2.1.4",
-  "description": "Elegant route definitions for Vue Router. Based on Laravel routing system.",
-  "main": "dist/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/raniesantos/vue-routisan.git"
-  },
+  "description": "Elegant, fluent route definitions for Vue Router, inspired by Laravel.",
+  "version": "3.0.0",
+  "license": "ISC",
+  "author": "@mikerockett",
+  "homepage": "https://github.com/mikerockett/vue-routisan#readme",
   "keywords": [
     "vue",
     "vuejs",
     "vue-router",
-    "router",
-    "routing",
-    "route",
-    "routes",
     "laravel",
-    "group",
-    "groups",
     "guard",
-    "guards",
-    "multi",
-    "multiple",
+    "middleware",
     "artisan"
   ],
-  "author": "Ranie Santos",
-  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mikerockett/vue-routisan.git"
+  },
   "bugs": {
-    "url": "https://github.com/raniesantos/vue-routisan/issues"
+    "url": "https://github.com/mikerockett/vue-routisan/issues"
   },
-  "homepage": "https://github.com/raniesantos/vue-routisan#readme",
-  "dependencies": {
-    "vue-router-multiguard": "^1.0.3"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "eslint": "^4.15.0",
-    "eslint-config-raniesantos": "^1.0.1",
-    "eslint-config-standard": "^11.0.0-beta.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-node": "^5.2.1",
-    "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-standard": "^3.0.1",
-    "eslint-plugin-vue": "^4.2.0",
-    "poi": "^9.6.9",
-    "rimraf": "^2.6.2"
+    "microbundle": "^0.12.3",
+    "rimraf": "^3.0.2"
   },
   "peerDependencies": {
     "vue-router": "^3.0.1"
   },
+  "source": "src/main.js",
+  "main": "dist/vue-routisan.esm.js",
+  "mangle": {
+    "regex": "^_"
+  },
   "scripts": {
-    "lint": "eslint src",
     "clean": "rimraf dist/*",
-    "poi": "poi build src --library --filename.js index.js",
-    "build": "npm run clean && npm run poi",
-    "prepublish": "npm run build"
+    "bundle": "microbundle --strict --no-sourcemap",
+    "watch": "npm run clean && microbundle watch --no-compress --strict --format esm",
+    "build": "npm run clean && npm run bundle",
+    "prepublishOnly": "npm run build"
   }
 }
