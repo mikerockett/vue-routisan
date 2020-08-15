@@ -4,6 +4,22 @@
 
 ## `v2.x` → `v3.0.0-alpha.1`
 
+### Importing `Route`
+
+`Route` is now a named export:
+
+**Before:**
+
+```js
+import Route from 'vue-routisan'
+```
+
+**After:**
+
+```js
+import { Route } from 'vue-routisan'
+```
+
 ### View Resolvers
 
 Calls to `Route.setViewResolver` must be changed to `Factory.usingResolver`:

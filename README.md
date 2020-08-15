@@ -22,6 +22,7 @@ Elegant, fluent route definitions for [Vue Router](https://router.vuejs.org/), i
 - [Aliasing Routes](#aliasing-routes)
 - [Parameter Matching](#parameter-matching)
   - [Advanced Pattern Matching](#advanced-pattern-matching)
+- [Definition Helpers](#definition-helpers)
 - [Nesting Routes](#nesting-routes)
 - [Grouping Routes](#grouping-routes)
 - [Grouping and Nesting Routes](#grouping-and-nesting-routes)
@@ -227,6 +228,19 @@ Additional notes:
 
 - **Constraining parameters** to expressions is done by placing them outside of the curlies. Ex, `{user}(\\d+)` is compiled to `:user(\\d+)`.
 - **Aliased constraints** for numbers and strings are available: Ex, `user/{user}(number)` is compiled to `user/:user(\\d+)` and `posts/{slug}(string)` is compiled to `posts/:slug(\\w+)`
+
+## Definition Helpers
+
+If you don’t want to use `Route` everywhere, you can import the various helper-delegates and use those directly:
+
+```js
+import { route, redirect, fallback, group } from 'vue-routisan'
+
+route('/', 'Home')
+redirect('home', '/')
+fallback('404')
+group({ prefix: 'account' }, callback)
+```
 
 ## Nesting Routes
 
