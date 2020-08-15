@@ -127,3 +127,12 @@ Route.view('users/*', 'UserRouteNotFound')
 ```
 
 **Vue Router Reference:** [router.vuejs.org/guide/essentials/dynamic-matching.html](https://router.vuejs.org/guide/essentials/dynamic-matching.html#catch-all-404-not-found-route)
+
+### Route Options
+
+Per the [changelog](changelog.md), route options are no longer supported. Instead, use the applicable methods to set up your routes. These include:
+
+- `meta(key, value)`
+- `props(object)`
+- `prop(key, value)` (defers to `props`)
+- `guard` (now fully replaces the old `beforeEnter` option)

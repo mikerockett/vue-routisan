@@ -23,6 +23,7 @@ Elegant, fluent route definitions for [Vue Router](https://router.vuejs.org/), i
 - [Parameter Matching](#parameter-matching)
   - [Advanced Pattern Matching](#advanced-pattern-matching)
 - [Definition Helpers](#definition-helpers)
+- [Route Options](#route-options)
 - [Nesting Routes](#nesting-routes)
 - [Grouping Routes](#grouping-routes)
 - [Grouping and Nesting Routes](#grouping-and-nesting-routes)
@@ -240,6 +241,17 @@ route('/', 'Home')
 redirect('home', '/')
 fallback('404')
 group({ prefix: 'account' }, callback)
+```
+
+## Route Options
+
+To set meta and props on your routes, simply use the available helpers:
+
+```js
+Route.view('page', 'Page')
+  .meta('key', value)
+  .prop('key', value)
+  .props(props)
 ```
 
 ## Nesting Routes
