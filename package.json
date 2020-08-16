@@ -37,7 +37,7 @@
   "scripts": {
     "clean": "rimraf dist/*",
     "bundle": "microbundle --strict --no-sourcemap",
-    "watch": "npm run clean && microbundle watch --no-compress --strict --format umd",
+    "watch": "npm run clean && microbundle watch --no-compress --strict --format cjs",
     "build": "npm run clean && npm run bundle",
     "prepublishOnly": "npm run build"
   }

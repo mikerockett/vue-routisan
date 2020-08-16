@@ -150,7 +150,7 @@ export class Factory {
   }
 
   static _flush() {
-    if (!this._compiled) {
+    if (!this._compiled.length) {
       this._compile()
     }
 
@@ -162,7 +162,7 @@ export class Factory {
   }
 
   static routes() {
-    return Factory._flush()
+    return this._flush()
   }
 
   static dump() {
