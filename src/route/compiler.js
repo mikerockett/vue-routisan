@@ -27,7 +27,13 @@ export class Compiler {
       this._beforeEnter(compiled)
     }
 
-    return filterObject(compiled, (item) => item === undefined || item === '' || !Object.keys(item).length)
+    return filterObject(compiled, (item) => {
+      if (item instanceof Function) {
+        return false
+      }
+
+      return item === undefined || item === '' || !Object.keys(item).length
+    })
   }
 
   _components(compiled) {
