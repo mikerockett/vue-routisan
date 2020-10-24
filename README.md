@@ -1,13 +1,17 @@
-# Vue Routisan
+<img src="https://rockett.pw/git-assets/vue-routisan/logo.svg" alt="Vue Routisan" width="250">
+
+Elegant, fluent route definitions for [Vue Router](https://router.vuejs.org/), inspired by [Laravel](https://laravel.com).</p>
+
+# Routisan 3 (Alpha)
+
+🚧 v3 is now ready for testing! Install it with `npm i vue-routisan@next`, and see the **[develop branch](https://github.com/mikerockett/vue-routisan/tree/develop)** for more info. v2 will no longer be maintained.
+
+# Routisan 2 (Legacy)
 
 [![Latest Version on NPM](https://img.shields.io/npm/v/vue-routisan.svg?style=flat-square)](https://www.npmjs.com/package/vue-routisan)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://oss.ninja/mit/raniesantos)
 
-Elegant route definitions for **Vue Router**. Based on the Laravel routing system.
 
-> 🏭 **Routisan 3, a complete rewrite, is under construction.** Progress can be tracked on [the project board](https://github.com/mikerockett/vue-routisan/projects/2). An alpha will be released when feature-parity has been reached. The current dev branch has, as a result, been abandoned. Some of the new features included in that branch, such as setting `meta` and using named views, are being included in v3.
-
-___
 ## Install
 
 You can install this package via yarn (or npm):
@@ -16,7 +20,6 @@ You can install this package via yarn (or npm):
 $ yarn add vue-routisan
 ```
 
-___
 ## Usage
 
 ### Setting the view resolver
@@ -200,12 +203,10 @@ export default new VueRouter({
 });
 ```
 
-___
 ## Contributing
 
 Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
-___
 ## License
 
 Released under the [MIT License](https://oss.ninja/mit/raniesantos).
