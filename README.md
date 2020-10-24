@@ -2,15 +2,16 @@
 
 Elegant, fluent route definitions for [Vue Router](https://router.vuejs.org/), inspired by [Laravel](https://laravel.com).</p>
 
-# Routisan 3 (Alpha)
+## Routisan 3 (Alpha)
 
-🚧 v3 is now ready for testing! Install it with `npm i vue-routisan@next`, and see the **[develop branch](https://github.com/mikerockett/vue-routisan/tree/develop)** for more info. v2 will no longer be maintained.
+v3 is now ready for testing! Install it with `npm i vue-routisan@next`, and see the **[develop branch](https://github.com/mikerockett/vue-routisan/tree/develop)** and **[new docs](https://vue-routisan.rockett.pw/)** for more info. v2 will no longer be maintained.
 
-# Routisan 2 (Legacy)
+---
+
+## Routisan 2 (Legacy)
 
 [![Latest Version on NPM](https://img.shields.io/npm/v/vue-routisan.svg?style=flat-square)](https://www.npmjs.com/package/vue-routisan)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://oss.ninja/mit/raniesantos)
-
 
 ## Install
 
