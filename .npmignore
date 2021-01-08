@@ -1,6 +1,4 @@
-/.circleci
-/.github
 /.vscode
+/src
 .editorconfig
-.eslintrc.json
-yarn.lock
+.gitignore
