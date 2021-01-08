@@ -7,8 +7,11 @@ Elegant, fluent route definitions for [Vue Router](https://router.vuejs.org/), i
 ![Gluten Free](https://rockett.pw/git-assets/badges/gluten-free.badge.svg)
 ![Built with ♥](https://rockett.pw/git-assets/badges/with-love.badge.svg)
 
+Routisan 3 is currently in beta. Stable release around the corner!
+
 ```bash
-npm i vue-routisan@next # or, yarn add vue-routisan@next
+$ npm i vue-routisan@next # or
+$ yarn add vue-routisan@next
 ```
 
 ---
