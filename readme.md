@@ -7,7 +7,9 @@ Elegant, fluent route definitions for [Vue Router](https://router.vuejs.org/), i
 ![Gluten Free](https://rockett.pw/git-assets/badges/gluten-free.badge.svg)
 ![Built with ♥](https://rockett.pw/git-assets/badges/with-love.badge.svg)
 
-![`npm i vue-routisan // yarn add vue-routisan`](https://rockett.pw/git-assets/vue-routisan/install.badge.svg)
+```bash
+npm i vue-routisan # or, yarn add vue-routisan
+```
 
 ---
 
