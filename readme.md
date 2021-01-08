@@ -8,7 +8,7 @@ Elegant, fluent route definitions for [Vue Router](https://router.vuejs.org/), i
 ![Built with ♥](https://rockett.pw/git-assets/badges/with-love.badge.svg)
 
 ```bash
-npm i vue-routisan # or, yarn add vue-routisan
+npm i vue-routisan@next # or, yarn add vue-routisan@next
 ```
 
 ---
