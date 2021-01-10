@@ -7,11 +7,10 @@ Elegant, fluent route definitions for [Vue Router](https://router.vuejs.org/), i
 ![Gluten Free](https://rockett.pw/git-assets/badges/gluten-free.badge.svg)
 ![Built with ♥](https://rockett.pw/git-assets/badges/with-love.badge.svg)
 
-Routisan 3 is currently in beta. Stable release around the corner!
+**Routisan 3 is currently in beta. Stable release around the corner!**
 
-```bash
-$ npm i vue-routisan@next # or
-$ yarn add vue-routisan@next
+```sh
+npm i vue-routisan@next # or yarn add vue-routisan@next
 ```
 
 ---
@@ -40,6 +39,16 @@ This produces an array of routes in the format Vue Router expects to see, and fo
 ## Documentation
 
 You can read the docs on the [Vue Routisan 3 site](https://vue-routisan.rockett.pw/).
+
+## Upgrading from v2.x
+
+If you are upgrading a project to Routisan 3, please consult the [upgrade guide](upgrading.md).
+
+Keep in mind that Routisan 3 is currently in beta. It is suitable for production use, but it would be wise to wait for the stable release before using it in large projects where potential breaking changes might make the upgrade path unnecessarily complex.
+
+## Changelog
+
+Routisan’s changelog is maintained [here](changelog.md).
 
 ## License
 
