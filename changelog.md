@@ -2,6 +2,10 @@
 
 # Changelog
 
+## `v3.0.0-beta.2`
+
+The `fallback` helper has been removed. See the [upgrade guide](upgrading.md) for more information.
+
 ## `v3.0.0-alpha.1`
 
 This is a complete rewrite of Routisan, from the ground up. The aim was to provide a more context-aware and efficient way of building up a route-tree without changing the vast majority of the API, which makes the upgrade process relatively straight-forward.

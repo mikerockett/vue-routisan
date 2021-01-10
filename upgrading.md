@@ -2,6 +2,29 @@
 
 # Upgrade Guide
 
+## `v3.0.0-alpha.*` or `v3.0.0-beta.1`
+
+In the first v3 alpha, a `fallback` option was introduced to provide a clean syntax for defining a catch-all route. However, Vue Router 4 removed catch-alls and replaced them with named regex-based paramaters.
+
+Given that Routisan does not force a specific version of Vue Router (it does not depend on it, nor does it make it a peer dependency), it is unable to determine the correct course of action for fallback routes.
+
+### Migration Path
+
+In the unlikely event that you are using Routisan 3 alpha or beta in a production project and making use of fallbacks, you will need to revert to a normal route that handles this:
+
+```diff
+-- Route.fallback('PageNotFound')
+++ Route.view('/:fallback(.*)*', 'PageNotFound')
+```
+
+If you prefer the [curly syntax](https://vue-routisan.rockett.pw/guide/parameter-matching.html#alternative-curly-syntax):
+
+```js
+Route.view('/{fallback}(.*)*', 'PageNotFound')
+```
+
+At a later stage, Routisan may introduce Vue Router 4 as a peer dependency, at which time `fallback` may become available again.
+
 ## `v2.x` → `v3.0.0-alpha.1`
 
 ### Importing `Route`
@@ -31,6 +54,17 @@ Calls to `Route.setViewResolver` must be changed to `Factory.usingResolver`:
 --   routes: Route.all()
 ++   routes: Factory.routes()
 -- })
+```
+
+If you are using Vue Router 4, the syntax for creating routers has changed:
+
+```js
+import { createRouter, createWebHistory } from 'vue-router'
+
+createRouter({
+  history: createWebHistory(),
+  routes: Factory.routes(),
+})
 ```
 
 ### Named Views
@@ -113,6 +147,8 @@ Route.view('/account/settings', 'Settings').guard('auth', 'AdminGuard');
 ```
 
 ### Fallback Routes
+
+> ⚠️ This has been removed in Beta 2
 
 If you were declaring a catch-all/fallback route, you may now take advantage of the `fallback` method:
 

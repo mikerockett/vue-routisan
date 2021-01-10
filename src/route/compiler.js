@@ -85,7 +85,9 @@ export class Compiler {
         throw guardError('rejection loop detected.')
       }
 
-      rejection = rejection === undefined ? guardError('rejection handler missing.') : this._compileRejection(rejection)
+      rejection = rejection === undefined
+        ? guardError('rejection handler missing.')
+        : this._compileRejection(rejection)
 
       next(rejection)
     }

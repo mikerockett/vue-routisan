@@ -28,10 +28,6 @@ export class Route {
     return new this(source, null, null, destination)
   }
 
-  static fallback(view, additionalViews) {
-    return this.view('*', view, additionalViews)
-  }
-
   static dump() {
     console.table(Factory._compile()._compiled)
   }

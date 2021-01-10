@@ -8,10 +8,6 @@ export function redirect() {
   return Route.redirect(...arguments)
 }
 
-export function fallback() {
-  return Route.fallback(...arguments)
-}
-
 export function group() {
   return Route.group(...arguments)
 }
