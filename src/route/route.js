@@ -45,11 +45,11 @@ export class Route {
   }
 
   meta(key, value) {
-    return this._setObject(this.meta, 'meta', key, value)
+    return this._setObject(this._meta, 'meta', key, value)
   }
 
   props(key, value) {
-    return this._setObject(this.props, 'props', key, value)
+    return this._setObject(this._props, 'props', key, value)
   }
 
   prop(key, value) {
