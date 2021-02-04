@@ -19,6 +19,8 @@ export class Compiler {
       children: children.map((child) => child._compile(true)),
       name: children.length ? undefined : this._compileName(),
       alias: children.length ? undefined : this._route._alias,
+      meta: children.length ? undefined : this._route._meta,
+      props: children.length ? undefined : this._route._props,
     }
 
     this._components(compiled)
