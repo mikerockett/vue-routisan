@@ -2,12 +2,18 @@
 
 # Changelog
 
-## `v3.0.0-beta.3`
+## `v3.0.0-beta.4`
 
 The internal build of Vue Routisan has been removed. This has been done for a few reasons:
 
 1. Most bundlers can compile the code, and would do so with the dist bundle anyway.
-2. Several dependency security issues, and quite a lot of enqueue issues in microbundle.
+2. Several dependency security issues, and quite a lot of enqueue issues in microbundle. Whilst development is active on that project, it's actually not required.
+
+At a later stage, alternative options will be explored to make sure that Vue Routisan can be used in all environments (Node, Deno, and the browser).
+
+## `v3.0.0-beta.3`
+
+Fixing the missing meta and props fields (#55)
 
 ## `v3.0.0-beta.2`
 
