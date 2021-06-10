@@ -1,4 +1,8 @@
+/.github
 /.vscode
-/src
 .editorconfig
 .gitignore
+changelog.md
+license.md
+readme.md
+upgrading.md

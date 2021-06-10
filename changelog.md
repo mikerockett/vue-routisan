@@ -2,6 +2,13 @@
 
 # Changelog
 
+## `v3.0.0-beta.3`
+
+The internal build of Vue Routisan has been removed. This has been done for a few reasons:
+
+1. Most bundlers can compile the code, and would do so with the dist bundle anyway.
+2. Several dependency security issues, and quite a lot of enqueue issues in microbundle.
+
 ## `v3.0.0-beta.2`
 
 The `fallback` helper has been removed. See the [upgrade guide](upgrading.md) for more information.
