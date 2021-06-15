@@ -1,17 +1,13 @@
 export class RouteBag {
   constructor() {
-    this._routes = []
+    this.routes = []
   }
 
-  routes() {
-    return this._routes
+  pushRoute(route) {
+    this.routes.push(route)
   }
 
-  _pushRoute(route) {
-    this._routes.push(route)
-  }
-
-  _compiled() {
-    return this.routes().map((route) => route._compile())
+  compiled() {
+    return this.routes.map((route) => route.compile())
   }
 }

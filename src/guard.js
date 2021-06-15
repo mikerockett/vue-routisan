@@ -1,30 +1,25 @@
 export class Guard {
   constructor(name) {
-    this._name = name
+    this.name = name || 'UntitledGuard'
   }
 
-  _promise(context) {
+  promise(context) {
     return new Promise((resolve, reject) => {
       this.handle(resolve, reject, context)
     })
   }
 
-  _canLog() {
+  get canLog() {
     const logMethod = 'logPromiseOutcomes'
-
     return this[logMethod] && typeof this[logMethod] === 'function' && this[logMethod]()
   }
 
-  _logResolution({ from, to }) {
-    if (this._canLog()) console.info(`${this.name()}.resolved: ${from.path} → ${to.path}`)
+  logResolution({ from, to }) {
+    this.canLog && console.info(`${this.name}.resolved: ${from.path} → ${to.path}`)
   }
 
-  _logRejection({ from, to }, rejection) {
-    if (this._canLog()) console.warn(`${this.name()}.rejected: ${from.path} → ${to.path} with:`, rejection)
-  }
-
-  name() {
-    return this._name || 'UntitledGuard'
+  logRejection({ from, to }, rejection) {
+    this.canLog && console.warn(`${this.name}.rejected: ${from.path} → ${to.path} with:`, rejection)
   }
 
   handle(resolve) {

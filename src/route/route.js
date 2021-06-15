@@ -7,14 +7,14 @@ import { assertObject } from '../assertions/object'
 
 export class Route {
   constructor(path, view, additionalViews, redirectTo) {
-    this._setDefaults()
-    Factory._linkRoute(this)
-    this._path = Factory._cleanPath(path)
+    this.setDefaults()
+    Factory.linkRoute(this)
+    this.path = Factory.cleanPath(path)
 
     if (view) {
-      this._components = Factory._resolveComponents(view, additionalViews)
+      this.components = Factory.resolveComponents(view, additionalViews)
     } else {
-      this._redirect = redirectTo
+      this.redirect = redirectTo
     }
   }
 
@@ -29,27 +29,28 @@ export class Route {
   }
 
   static dump() {
-    console.table(Factory._compile()._compiled)
+    console.log('Compiled Routes:')
+    console.table(Factory.compile().compiled)
   }
 
   name(name) {
     assertString(name, 'name')
-    this._name = trim(name, Factory._nameSeparator)
+    this.name = trim(name, Factory.nameSeparator)
     return this
   }
 
   alias(alias) {
-    assertString(name, 'alias')
-    this._alias = Factory._cleanPath(alias)
+    assertString(alias, 'alias')
+    this.alias = Factory.cleanPath(alias)
     return this
   }
 
   meta(key, value) {
-    return this._setObject(this._meta, 'meta', key, value)
+    return this.setObject(this.meta, 'meta', key, value)
   }
 
   props(key, value) {
-    return this._setObject(this._props, 'props', key, value)
+    return this.setObject(this.props, 'props', key, value)
   }
 
   prop(key, value) {
@@ -60,7 +61,7 @@ export class Route {
   guard(...guards) {
     for (const guard of guards) {
       assertString(guard, 'guard')
-      this._guards.add(Factory._guard(guard))
+      this.guards.add(Factory.guard(guard))
     }
 
     return this
@@ -68,7 +69,7 @@ export class Route {
 
   children(callable) {
     assertFunction(callable, 'children')
-    return Factory._withChildren(this, callable)
+    return Factory.withChildren(this, callable)
   }
 
   static group(options, callable) {
@@ -79,29 +80,29 @@ export class Route {
       assertFunction(options, 'group')
     }
 
-    Factory._withinGroup(callable ? options : {}, callable || options)
+    Factory.withinGroup(callable ? options : {}, callable || options)
   }
 
-  _setDefaults() {
-    this._path = undefined
-    this._components = {}
-    this._redirect = undefined
-    this._nameClamp = undefined
-    this._prefixClamp = undefined
-    this._name = undefined
-    this._children = []
-    this._guards = new Set()
-    this._alias = undefined
-    this._meta = {}
-    this._props = {}
+  setDefaults() {
+    this.path = undefined
+    this.components = {}
+    this.redirect = undefined
+    this.nameClamp = undefined
+    this.prefixClamp = undefined
+    this.name = undefined
+    this.children = []
+    this.guards = new Set()
+    this.alias = undefined
+    this.meta = {}
+    this.props = {}
   }
 
-  _clampName(clampName) {
+  clampName(clampName) {
     assertString(clampName, 'clampName')
-    const separator = Factory._nameSeparator
+    const separator = Factory.nameSeparator
 
-    this._nameClamp = trim(
-      [this._nameClamp || undefined, this._name || undefined, clampName]
+    this.nameClamp = trim(
+      [this.nameClamp || undefined, this.name || undefined, clampName]
         .filter((clamp) => clamp !== undefined)
         .join(separator),
       separator
@@ -110,11 +111,11 @@ export class Route {
     return this
   }
 
-  _clampPrefix(clampPrefix) {
+  clampPrefix(clampPrefix) {
     assertString(clampPrefix, 'clampPrefix')
 
-    this._prefixClamp = Factory._cleanPath(
-      [this._prefixClamp || undefined, this._path || undefined, clampPrefix]
+    this.prefixClamp = Factory.cleanPath(
+      [this.prefixClamp || undefined, this.path || undefined, clampPrefix]
         .filter((clamp) => clamp !== undefined)
         .join('/')
     )
@@ -122,7 +123,7 @@ export class Route {
     return this
   }
 
-  _setObject(on, context, key, value) {
+  setObject(on, context, key, value) {
     if (key instanceof Object) {
       Object.assign(on, key)
     } else if (value) {
@@ -134,7 +135,7 @@ export class Route {
     return this
   }
 
-  _compile(nested) {
-    return new Compiler(this)._compile(nested)
+  compile(nested) {
+    return new Compiler(this).compile(nested)
   }
 }

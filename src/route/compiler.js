@@ -7,26 +7,26 @@ import { trim, filterObject } from '../utilities'
 export class Compiler {
   constructor(route) {
     assertIs(route, 'route', Route, 'Route')
-    this._route = route
+    this.route = route
   }
 
-  _compile(nested = false) {
-    const children = this._route._children
+  compile(nested = false) {
+    const children = this.route.children
     const compiled = {
       components: {},
-      path: this._compilePath(nested),
-      redirect: this._route._redirect,
-      children: children.map((child) => child._compile(true)),
-      name: children.length ? undefined : this._compileName(),
-      alias: children.length ? undefined : this._route._alias,
-      meta: children.length ? undefined : this._route._meta,
-      props: children.length ? undefined : this._route._props,
+      path: this.compilePath(nested),
+      redirect: this.route.redirect,
+      children: children.map((child) => child.compile(true)),
+      name: children.length ? undefined : this.compileName(),
+      alias: children.length ? undefined : this.route.alias,
+      meta: children.length ? undefined : this.route.meta,
+      props: children.length ? undefined : this.route.props,
     }
 
-    this._components(compiled)
+    this.components(compiled)
 
-    if (this._route._guards.size > 0) {
-      this._beforeEnter(compiled)
+    if (this.route.guards.size > 0) {
+      this.beforeEnter(compiled)
     }
 
     return filterObject(compiled, (item) => {
@@ -38,50 +38,50 @@ export class Compiler {
     })
   }
 
-  _components(compiled) {
-    for (const [name, component] of Object.entries(this._route._components)) {
+  components(compiled) {
+    for (const [name, component] of Object.entries(this.route.components)) {
       compiled.components[name] = component
     }
   }
 
-  _compilePath(nested) {
-    const cleanedPath = trim([this._route._prefixClamp, this._route._path].join('/')) || (nested ? '/' : '')
+  compilePath(nested) {
+    const cleanedPath = trim([this.route.prefixClamp, this.route.path].join('/')) || (nested ? '/' : '')
     return nested ? cleanedPath : `/${cleanedPath}`
   }
 
-  _compileName() {
-    const separator = Factory._nameSeparator
-    const compiledName = [this._route._nameClamp, this._route._name].join(separator)
+  compileName() {
+    const separator = Factory.nameSeparator
+    const compiledName = [this.route.nameClamp, this.route.name].join(separator)
 
     return trim(compiledName, separator)
   }
 
-  _beforeEnter(compiled) {
+  beforeEnter(compiled) {
     compiled.beforeEnter = (to, from, next) => {
-      Array.from(this._route._guards)
-        .reduce(this._guardChainHandler({ from, to }), Promise.resolve())
-        .then(this._guardResolutionHandler({ from, to }, next))
-        .catch(this._guardRejectionHandler({ from, to }, next))
+      Array.from(this.route.guards)
+        .reduce(this.guardChain({ from, to }), Promise.resolve())
+        .then(this.guardResolver({ from, to }, next))
+        .catch(this.guardRejector({ from, to }, next))
     }
   }
 
-  _guardChainHandler({ from, to }) {
+  guardChain({ from, to }) {
     return (chain, current) => {
-      this._current = current
-      return chain.then(() => current._promise({ from, to }))
+      this.current = current
+      return chain.then(() => current.promise({ from, to }))
     }
   }
 
-  _guardResolutionHandler(context, next) {
+  guardResolver(context, next) {
     return () => {
-      this._current._logResolution(context)
+      this.current.logResolution(context)
       next()
     }
   }
 
-  _guardRejectionHandler(context, next) {
+  guardRejector(context, next) {
     return (rejection) => {
-      this._current._logRejection(context, rejection)
+      this.current.logRejection(context, rejection)
 
       if (context.to.name == rejection.name || context.to.path === rejection.path) {
         throw guardError('rejection loop detected.')
@@ -89,13 +89,13 @@ export class Compiler {
 
       rejection = rejection === undefined
         ? guardError('rejection handler missing.')
-        : this._compileRejection(rejection)
+        : this.compileRejection(rejection)
 
       next(rejection)
     }
   }
 
-  _compileRejection(rejection) {
+  compileRejection(rejection) {
     return rejection instanceof Function ? rejection() : rejection
   }
 }
