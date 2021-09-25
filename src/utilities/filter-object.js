@@ -1,8 +1,4 @@
-import { assertFunction } from '../assertions/function'
-
 export function filterObject(object, predicate) {
-  assertFunction(predicate, 'filterObject.predicate')
-
   let key
   let filteredObject = {}
 

@@ -1,5 +1,6 @@
 /.github
 /.vscode
+/demo
 .editorconfig
 .gitignore
 changelog.md

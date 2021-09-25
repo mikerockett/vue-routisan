@@ -1,7 +1,4 @@
-import { assertFunction } from '../assertions/function'
 import { assertGuard } from '../assertions/guard'
-import { assertObject } from '../assertions/object'
-import { assertString } from '../assertions/string'
 import { RouteBag } from './bag'
 import { stringPopulated, cleanRouteParam } from '../utilities'
 
@@ -16,20 +13,16 @@ export class Factory {
   static resolver = (component) => component
 
   static usingResolver(resolver) {
-    assertFunction(resolver, 'resolver')
     this.resolver = resolver
     return this
   }
 
   static withNameSeparator(separator) {
-    assertString(separator, 'separator')
     this.nameSeparator = separator
     return this
   }
 
   static withGuards(guards) {
-    assertObject(guards, 'guards')
-
     for (const [name, guardClass] of Object.entries(guards)) {
       const guard = new guardClass(name)
       assertGuard(guard, 'guard[]')
@@ -47,21 +40,19 @@ export class Factory {
     const defaultComponent = this.resolver(view)
     const additionalComponents = {}
 
-    if (additionalViews) {
-      assertObject(additionalViews, 'additionalViews')
-
-      for (const viewName in additionalViews) {
-        components[viewName] = this.resolveComponents(additionalViews[viewName], null, false)
-      }
+    if (additionalViews) for (const viewName in additionalViews) {
+      components[viewName] = this.resolveComponents(additionalViews[viewName], null, false)
     }
 
-    return root ? Object.assign({ default: defaultComponent }, additionalComponents) : defaultComponent
+    return root
+      ? Object.assign({ default: defaultComponent }, additionalComponents)
+      : defaultComponent
   }
 
   static cleanPath(path) {
     const separator = '/'
 
-    const routePath = assertString(path, 'path')
+    const routePath = path
       .split(separator)
       .filter(stringPopulated)
       .map(cleanRouteParam)
@@ -90,30 +81,24 @@ export class Factory {
 
       const clampableGuards = this.groupContexts
         .map((options) => {
-          const guards = Array.isArray(options.guard) ? options.guard : Array.of(options.guard)
+          const guards = Array.isArray(options.guard)
+            ? options.guard
+            : Array.of(options.guard)
+
           return guards.filter(guard => guard !== undefined)
         })
 
-      if (clampableName) {
-        route.clampName(clampableName)
-      }
-
-      if (clampablePrefix) {
-        route.clampPrefix(clampablePrefix)
-      }
-
-      if (clampableGuards.length) {
-        route.guard(...clampableGuards.reduce((flat, next) => flat.concat(next), []))
-      }
+      if (clampableName) route.clampName(clampableName)
+      if (clampablePrefix) route.clampPrefix(clampablePrefix)
+      if (clampableGuards.length) route.guard(
+        ...clampableGuards.reduce((flat, next) => flat.concat(next), [])
+      )
     }
 
     if (this.childContexts.length) {
-      route.clampName(this.childContexts.map((route) => route.name).join(this.nameSeparator))
-      this.childContexts[this.childContexts.length - 1].children.push(route)
-    } else {
-      this.routeBag.pushRoute(route)
-    }
-
+      route.clampName(this.childContexts.map((route) => route._name).join(this.nameSeparator))
+      this.childContexts[this.childContexts.length - 1]._children.push(route)
+    } else this.routeBag.pushRoute(route)
   }
 
   static withChildren(route, callable) {
@@ -150,9 +135,7 @@ export class Factory {
   }
 
   static flush() {
-    if (!this.compiled.length) {
-      this.compile()
-    }
+    if (!this.compiled.length) this.compile()
 
     const compiled = this.compiled
     this.routeBag = new RouteBag()

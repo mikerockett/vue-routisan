@@ -2,9 +2,12 @@
   "name": "vue-routisan",
   "description": "Elegant, fluent route definitions for Vue Router, inspired by Laravel.",
   "version": "3.0.0-beta.4",
-  "license": "ISC",
   "author": "@mikerockett",
+  "license": "ISC",
   "homepage": "https://vue-routisan.rockett.pw",
+  "bugs": "https://github.com/mikerockett/vue-routisan/issues",
+  "source": "src/main.js",
+  "main": "dist/vue-routisan.js",
   "keywords": [
     "vue",
     "vuejs",
@@ -18,9 +21,18 @@
     "type": "git",
     "url": "https://github.com/mikerockett/vue-routisan.git"
   },
-  "bugs": {
-    "url": "https://github.com/mikerockett/vue-routisan/issues"
+  "mangle": {
+    "regex": "^_"
   },
-  "source": "src/main.js",
-  "main": "src/main.js"
+  "scripts": {
+    "clean": "rimraf dist/*",
+    "bundle": "esbuild src/main.js --platform=node --bundle --format=esm --minify --outfile=dist/vue-routisan.js",
+    "watch": "yarn clean && esbuild src/main.js --platform=node --bundle --format=esm --sourcemap --watch --outfile=dist/vue-routisan.js",
+    "build": "yarn clean && yarn bundle",
+    "prepublishOnly": "yarn build"
+  },
+  "devDependencies": {
+    "esbuild": "^0.13.2",
+    "rimraf": "^3.0.2"
+  }
 }
