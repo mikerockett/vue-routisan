@@ -22,7 +22,7 @@ export class Route {
 
   static dump() {
     console.log('Compiled Routes:')
-    console.table(Factory.compile().compiled)
+    console.dir(Factory.compile().compiled)
   }
 
   name(name) {

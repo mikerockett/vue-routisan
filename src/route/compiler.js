@@ -9,15 +9,17 @@ export class Compiler {
 
   compile(nested = false) {
     const children = this.route._children
+    const hasChildren = children.length > 0
+
     const compiled = {
       components: {},
       path: this.compilePath(nested),
       redirect: this.route._redirect,
       children: children.map((child) => child.compile(true)),
-      name: children.length ? undefined : this.compileName(),
-      alias: children.length ? undefined : this.route._alias,
-      meta: children.length ? undefined : this.route._meta,
-      props: children.length ? undefined : this.route._props,
+      name: hasChildren ? undefined : this.compileName(),
+      alias: hasChildren ? undefined : this.route._alias,
+      meta: hasChildren ? undefined : this.route._meta,
+      props: hasChildren ? undefined : this.route._props,
     }
 
     this.components(compiled)
@@ -30,9 +32,7 @@ export class Compiler {
       compiled,
       (item) => item instanceof Function
         ? false
-        : item === undefined
-          || item === ''
-          || !Object.keys(item).length
+        : item === undefined || (item instanceof Object && !Object.keys(item).length)
     )
   }
 
@@ -43,7 +43,7 @@ export class Compiler {
   }
 
   compilePath(nested) {
-    const cleanedPath = trim([this.route._prefixClamp, this.route._path].join('/')) || (nested ? '/' : '')
+    const cleanedPath = trim([this.route._prefixClamp, this.route._path].join('/')) || ''
     return nested ? cleanedPath : `/${cleanedPath}`
   }
 

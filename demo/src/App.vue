@@ -1,13 +1,16 @@
 <template>
   <div>
-    <nav>
-      <RouterLink :to="{ name: 'home' }">Home</RouterLink>
-      <RouterLink :to="{ name: 'about' }">About</RouterLink>
-      <RouterLink :to="{ name: 'account.manage' }">Account</RouterLink>
-      <RouterLink :to="{ name: 'account.subscription.view' }">Subscription</RouterLink>
-      <RouterLink :to="{ name: 'account.subscription.upgrade.select-new-plan' }">Upgrade</RouterLink>
+    <nav class="h-12 shadow bg-gray-100 flex divide-x items-center">
+      <RouterLink class="px-4 py-3 hover:text-blue-500" :to="{ name: 'home' }">Home</RouterLink>
+      <RouterLink class="px-4 py-3 hover:text-blue-500" :to="{ name: 'about' }">About</RouterLink>
+      <RouterLink class="px-4 py-3 hover:text-blue-500" :to="{ name: 'account.manage' }">Account</RouterLink>
     </nav>
-    <RouterView :key="$route.name" />
+    <div class="p-10">
+      <RouterView :key="$route.name" />
+    </div>
+    <div class="w-1/3 top-5 overflow-auto fixed right-5 bottom-5 p-4 bg-white shadow rounded">
+      <pre class="text-xs">{{ $route.matched }}</pre>
+    </div>
   </div>
 </template>
 

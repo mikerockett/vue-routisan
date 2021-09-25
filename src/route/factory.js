@@ -150,6 +150,6 @@ export class Factory {
 
   static dump() {
     console.log('Route Bag:')
-    console.table(this.routeBag ? this.routeBag.routes : [])
+    console.dir(this.routeBag ? this.routeBag.routes : [])
   }
 }

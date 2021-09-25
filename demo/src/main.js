@@ -3,6 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { Factory, Route, Guard } from 'vue-routisan'
 import App from './App.vue'
 
+import './main.css'
+
 class MyGuard extends Guard {
   handle(resolve, reject, context) {
     console.log('MyGuard triggered')
@@ -26,6 +28,7 @@ Route.group({ prefix: 'account', name: 'account' }, () => {
     Route.view('cancel', 'CancelSubscription').name('cancel')
 
     Route.view('upgrade', 'UpgradeSubscription').name('upgrade').children(() => {
+      Route.view('/', 'StartUpgrade').name('start')
       Route.group({ prefix: 'steps' }, () => {
         Route.view('select-new-plan', 'SelectNewPlan').name('select-new-plan')
         Route.view('review-payment-method', 'ReviewPaymentMethod').name('review-payment-method')

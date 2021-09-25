@@ -1,10 +1,8 @@
 <template>
-  <div>
-    <p>Upgrade</p>
-    <nav>
-      <RouterLink :to="{ name: 'account.subscription.upgrade.select-new-plan' }">Select Plan</RouterLink>
-      <RouterLink :to="{ name: 'account.subscription.upgrade.review-payment-method' }">Review Payment Method</RouterLink>
-    </nav>
-    <RouterView />
+  <div class="flex flex-col space-y-6">
+    <h1 class="text-xl">Upgrade Subscription</h1>
+    <div class="flex items-center space-x-4">
+      <RouterView />
+    </div>
   </div>
 </template>
