@@ -2,6 +2,14 @@
 
 # Changelog
 
+## `v3.0.0-beta-5`
+
+This is a reversal of the previous beta, however it now uses esbuild, and targets ESM as browsers are capable of running modules. Certain bundlers may do a pass over dependencies, converting them where required.
+
+This release also fixes an issue where using `'/'` in a nested route would result in pointing to the root. This is a new feature in Vue Router 4. Now, when using `''` or `'/'` in a nested route, Routisan will compile an empty string. Whilst this may counter the feature in Vue Router 4, it does stray away from the purpose of this package, which is to produce routes using a Laravel-like approach, which does not support the feature (which itself is counter-intuitive, in my opionion).
+
+Lastly, this release includes a Vite-powered demo in the `demo` directory. To play with it, simply clone the repo and spin up the demo app using `npm run serve` or `yarn serve`.
+
 ## `v3.0.0-beta.4`
 
 The internal build of Vue Routisan has been removed. This has been done for a few reasons:
