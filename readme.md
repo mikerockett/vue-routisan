@@ -1,4 +1,4 @@
-# ⚠️ Retired and Archived
+## ⚠️ Retired and Archived
 
 Vue Routisan is being retired in favour of a TypeScript rewrite under a new name, which is yet to be announced. This repository is being archived as a result.
 
@@ -6,6 +6,7 @@ The new package will employ the same principles of Routisan, however the interfa
 
 **Note:** The [current documentation site](https://vue-routisan.rockett.pw/) for v3 will remain available until such time as the new package has been released. The new package will also get a brand new docs site, powered by [VitePress](https://vitepress.dev/).
 
+<!-- exclude-from-website: -->
 ---
 
 ## Readme
@@ -20,6 +21,8 @@ Elegant, fluent route definitions for [Vue Router](https://router.vuejs.org/), i
 ![Built with ♥](https://rockett.pw/git-assets/badges/with-love.badge.svg)
 
 **Routisan 3 is currently in beta. Stable release around the corner!**
+
+<!-- /exclude-from-website -->
 
 ```sh
 npm i vue-routisan@next # or yarn add vue-routisan@next
